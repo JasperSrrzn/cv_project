@@ -85,7 +85,7 @@ class segmentation_model(object):
         self.model = Model(inputs, x)
         self.model.compile(optimizer=Adam(lr=1e-3), loss=dice_coef_loss)
         weights_path = os.path.expanduser(os.path.join('~', '.keras/models/fcn_vgg16_weights_tf_dim_ordering_tf_kernels.h5'))
-        model.load_weights(weights_path, by_name=True)
+        self.model.load_weights(weights_path, by_name=True)
         if (pretrained_weights):
             self.model.load_weights(pretrained_weights)
 
