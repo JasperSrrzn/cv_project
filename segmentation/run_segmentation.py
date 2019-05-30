@@ -46,7 +46,7 @@ best_model.load_weights(model_dir+name)
 predictions_test = best_model.predict(X_test)
 predictions_train = best_model.predict(X_train)
 
-np.load('/content/gdrive/My Drive/testpredictions.npy',predictions_test)
+np.save('/content/gdrive/My Drive/testpredictions.npy',predictions_test)
 image1 = X_train[0]
 pred = predictions_train[0,:,:,0]
 pred = np.reshape(pred,(pred.shape[0],pred.shape[1],1))
