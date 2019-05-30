@@ -41,7 +41,7 @@ class ConvolutionalAutoencoder(object):
             pool4 = Dropout(0.2)(pool4)
 
             conv5 = conv2d_block(pool4, self.n_filters * 16, kernel_size=3, batchnorm=True)
-            shape = conv5.output_shape
+            shape = conv5.shape
             flatten = Flatten()(conv5)
             flatten_shape = flatten.shape
 
