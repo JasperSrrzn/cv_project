@@ -89,7 +89,7 @@ class Unet(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.model.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=16), steps_per_epoch=20, epochs=epochs,validation_data=[X_validation, y_validation],
+        self.model.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=16), steps_per_epoch=50, epochs=epochs,validation_data=[X_validation, y_validation],
                        callbacks=callbacks)
 
     def predict(self,X):
