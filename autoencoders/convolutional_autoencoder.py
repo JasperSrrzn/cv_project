@@ -85,8 +85,8 @@ class ConvolutionalAutoencoder(object):
 
             self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
 
-         if (pretrained_weights):
-             self.model.load_weights(pretrained_weights)
+             if (pretrained_weights):
+                 self.autoencoder.load_weights(pretrained_weights)
 
 
 
@@ -115,5 +115,3 @@ class ConvolutionalAutoencoder(object):
 
     def predict(self,X):
         return self.autoencoder.predict(X)
-
-
