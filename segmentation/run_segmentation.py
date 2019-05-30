@@ -40,7 +40,7 @@ datagen = ImageDataGenerator(
 model = Unet(n_filters=16)
 model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
 
-best_model = segmentation_model()
+best_model = Unet(n_filters=16)
 best_model.load_weights(model_dir+name)
 
 predictions_test = best_model.predict(X_test)
