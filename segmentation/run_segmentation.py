@@ -1,5 +1,6 @@
 from fcn import fcn
 from segmentation_model import segmentation_model
+from unet import Unet
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,9 +8,7 @@ from unet import Unet
 from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 2
-num_epochs = 100
-latent_dimension = 10
-loss_of_autoencoder = 'xent'
+num_epochs = 1
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = os.path.dirname(os.getcwd())+'/segmentation/saved_models/'
 
@@ -38,8 +37,8 @@ datagen = ImageDataGenerator(
     height_shift_range=0.2,
     vertical_flip=True)
 
-model = segmentation_model()
-model.fit_generator(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,datagen=datagen,name=name,epochs=num_epochs)
+model = Unet()
+model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
 
 best_model = segmentation_model()
 best_model.load_weights(model_dir+name)

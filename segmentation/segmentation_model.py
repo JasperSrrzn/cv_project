@@ -32,30 +32,30 @@ class segmentation_model(object):
         weight_decay=0.
         classes=2
         inputs = Input(input_size)
-        x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv1',
+        x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block1_conv1',
                    kernel_regularizer=l2(weight_decay))(inputs)
-        x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2',
+        x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block1_conv2',
                    kernel_regularizer=l2(weight_decay))(x)
         x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
 
 
-        x = Conv2D(128, (3, 3), activation='relu', padding='same', name='block2_conv1',
+        x = Conv2D(1024, (3, 3), activation='relu', padding='same', name='block2_conv1',
                    kernel_regularizer=l2(weight_decay))(x)
-        x = Conv2D(128, (3, 3), activation='relu', padding='same', name='block2_conv2',
+        x = Conv2D(1024, (3, 3), activation='relu', padding='same', name='block2_conv2',
                    kernel_regularizer=l2(weight_decay))(x)
         x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
 
 
-        x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv1',
+        x = Conv2D(2056, (3, 3), activation='relu', padding='same', name='block3_conv1',
                    kernel_regularizer=l2(weight_decay))(x)
-        x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv2',
+        x = Conv2D(2056, (3, 3), activation='relu', padding='same', name='block3_conv2',
                    kernel_regularizer=l2(weight_decay))(x)
-        x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv3',
+        x = Conv2D(2056, (3, 3), activation='relu', padding='same', name='block3_conv3',
                    kernel_regularizer=l2(weight_decay))(x)
         x = MaxPooling2D((2, 2), strides=(2, 2), name='block3_pool')(x)
 
 
-        x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block4_conv1',
+        x = Conv2D(2056, (3, 3), activation='relu', padding='same', name='block4_conv1',
                    kernel_regularizer=l2(weight_decay))(x)
         x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block4_conv2',
                    kernel_regularizer=l2(weight_decay))(x)
