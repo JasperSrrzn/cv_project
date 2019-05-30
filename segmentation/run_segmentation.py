@@ -49,14 +49,14 @@ predictions = best_model.predict(X_test)
 image1 = X_train[0]
 segm1 = np.concatenate((predictions[0],predictions[0],predictions[0]),axis=-1)
 plt.imshow(image1)
-plt.savefig('first_train_image.png')
+plt.savefig('/content/gdrive/My Drive/first_train_image.png')
 plt.imshow(segm1)
-plt.savefig('first_train_segm.png')
+plt.savefig('/content/gdrive/My Drive/first_train_segm.png')
 
 
 image1 = X_test[0]
 segm1 = np.concatenate((predictions[0],predictions[0],predictions[0]),axis=-1)
 plt.imshow(image1)
-plt.savefig('first_test_image.png')
+plt.savefig('/content/gdrive/My Drive/first_test_image.png')
 plt.imshow(segm1)
-plt.savefig('first_test_segm.png')
+plt.savefig('/content/gdrive/My Drive/first_test_segm.png')
