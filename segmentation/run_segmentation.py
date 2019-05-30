@@ -7,7 +7,7 @@ from unet import Unet
 from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 2
-num_epochs = 100
+num_epochs = 1
 latent_dimension = 10
 loss_of_autoencoder = 'xent'
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
@@ -48,6 +48,7 @@ predictions = best_model.predict(X_test)
 
 image1 = X_train[0]
 segm1 = np.concatenate((predictions[0],predictions[0],predictions[0]),axis=-1)
+print(segm1.shape)
 plt.imshow(image1)
 plt.savefig('/content/gdrive/My Drive/first_train_image.png')
 plt.imshow(segm1)
