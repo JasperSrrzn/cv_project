@@ -14,6 +14,7 @@ def dice_coef_loss(y_true, y_pred):
 
 class Unet(object):
     def __init__(self,n_filters,pretrained_weights=None):
+        kernel_size = 3
         if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
