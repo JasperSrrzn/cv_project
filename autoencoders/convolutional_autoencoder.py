@@ -49,17 +49,13 @@ class ConvolutionalAutoencoder(object):
             int_mod = Model(inputs,f1)
             flatten_shape = int_mod.output_shape
 
-            f1 = Dense(flatten_shape[-1])(f1)
-            f1 = Activation('relu')(f1)
-            f1 = BatchNormalization()(f1)
+
+
             latent = Dense(self.latent_dim)(f1)
 
             self.encoder = Model(input=inputs,output=latent)
 
             f2 = Dense(flatten_shape[-1])(latent)
-            f2 = Activation('relu')(f2)
-            f2 = BatchNormalization()(f2)
-            f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]))(f2)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(conv5)
