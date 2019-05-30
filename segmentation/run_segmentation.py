@@ -7,7 +7,7 @@ from unet import Unet
 from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 2
-num_epochs = 100
+num_epochs = 1
 latent_dimension = 10
 loss_of_autoencoder = 'xent'
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
