@@ -38,7 +38,7 @@ datagen = ImageDataGenerator(
     vertical_flip=True)
 
 model = Unet(n_filters=16)
-model.fit_generator(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,datagen=datagen,name=name,epochs=num_epochs)
+model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
 
 best_model = Unet(n_filters=16)
 best_model.load_weights(model_dir+name)
