@@ -49,6 +49,7 @@ predictions_train = best_model.predict(X_train)
 
 image1 = X_train[0]
 segm1 = predictions_train[0]
+print(segm1.shape)
 plt.imshow(image1)
 plt.savefig('/content/gdrive/My Drive/first_train_image.png')
 plt.imshow(segm1)
