@@ -37,7 +37,7 @@ datagen = ImageDataGenerator(
     height_shift_range=0.2,
     vertical_flip=True)
 
-model = Unet()
+model = Unet(n_filters=16)
 model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
 
 best_model = segmentation_model()

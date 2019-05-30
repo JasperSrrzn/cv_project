@@ -31,7 +31,7 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
 
 
 class Unet(object):
-    def __init__(self,pretrained_weights=None,n_filters):
+    def __init__(self,n_filters,pretrained_weights=None):
         if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
