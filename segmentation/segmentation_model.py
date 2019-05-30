@@ -26,7 +26,7 @@ def dice_coef_loss(y_true, y_pred):
 
 class segmentation_model(object):
 
-    def __init__(self):
+    def __init__(self,pretrained_weights=None):
         input_size = (224,224,3)
         weight_decay=0.
         classes=2
