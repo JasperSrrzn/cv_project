@@ -50,7 +50,7 @@ class Unet(object):
             conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(conv5)
-            up6 = concatenate([up6,c4])
+            up6 = concatenate([up6,conv4])
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
 
             up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
