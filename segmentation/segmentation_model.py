@@ -81,7 +81,7 @@ class segmentation_model(object):
         x = Conv2D(classes, (1, 1), kernel_initializer='he_normal', activation='linear', padding='valid',
                    strides=(1, 1), kernel_regularizer=l2(weight_decay))(x)
 
-        x = BilinearUpSampling2D(size=(224, 224))(x)
+        x = BilinearUpSampling2D(size=(32, 32))(x)
 
         self.model = Model(inputs, x)
         self.model.compile(optimizer=Adam(lr=1e-3), loss=dice_coef_loss)
