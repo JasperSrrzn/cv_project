@@ -19,26 +19,28 @@ class ConvolutionalAutoencoder(object):
 
         self.latent_dim = latent_dim
         self.n_filters = n_filters
-        if pretrained_weights == None:
+
+                if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
-            conv1 = conv2d_block(inputs, self.n_filters * 1, kernel_size=3, batchnorm=True)
-            pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
+            conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
+            pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
             pool1 = Dropout(0.2)(pool1)
 
-            conv2 = conv2d_block(pool1, self.n_filters * 2, kernel_size=3, batchnorm=True)
+            conv2 = conv2d_block(pool1, n_filters*2, kernel_size=3, batchnorm=True)
             pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
             pool2 = Dropout(0.2)(pool2)
 
-            conv3 = conv2d_block(pool2, self.n_filters * 4, kernel_size=3, batchnorm=True)
+            conv3 = conv2d_block(pool2, n_filters*4, kernel_size=3, batchnorm=True)
             pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
             pool3 = Dropout(0.2)(pool3)
 
-            conv4 = conv2d_block(pool3, self.n_filters * 8, kernel_size=3, batchnorm=True)
+            conv4 = conv2d_block(pool3, n_filters*8, kernel_size=3, batchnorm=True)
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
             pool4 = Dropout(0.2)(pool4)
 
-            conv5 = conv2d_block(pool4, self.n_filters * 16, kernel_size=3, batchnorm=True)
+            conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
+
             shape = conv5.shape
             f1 = Flatten()(conv5)
 
@@ -49,35 +51,35 @@ class ConvolutionalAutoencoder(object):
             f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]))(latent)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
-            up6 = Conv2DTranspose(self.n_filters * 8, (3, 3), strides=(2, 2), padding='same')(f2)
-            up6 = concatenate([up6, conv4])
+            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(conv5)
+            up6 = concatenate([up6,conv4])
             up6 = Dropout(0.2)(up6)
-            conv6 = conv2d_block(up6, self.n_filters * 8, kernel_size=3, batchnorm=True)
+            conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
 
-            up7 = Conv2DTranspose(self.n_filters * 4, (3, 3), strides=(2, 2), padding='same')(conv6)
+            up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
             up7 = concatenate([up7, conv3])
             up7 = Dropout(0.2)(up7)
-            conv7 = conv2d_block(up7, self.n_filters * 4, kernel_size=3, batchnorm=True)
+            conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
 
-            up8 = Conv2DTranspose(self.n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
+            up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
             up8 = concatenate([up8, conv2])
             up8 = Dropout(0.2)(up8)
-            conv8 = conv2d_block(up8, self.n_filters * 2, kernel_size=3, batchnorm=True)
+            conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            up9 = Conv2DTranspose(self.n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
+            up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
             up9 = concatenate([up9, conv1])
-            up9 = Dropout(0.2)(up9)
-            conv9 = conv2d_block(up9, self.n_filters * 1, kernel_size=3, batchnorm=True)
+            up9  = Dropout(0.2)(up9)
+            conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
-            outputs = Conv2D(3, (3, 3), activation='sigmoid')(conv9)
+            outputs = Conv2D(1 , (1,1), activation='sigmoid')(conv9)
 
-            self.decoder = Model(input=latent,output=outputs)
             self.autoencoder = Model(input=inputs, output=outputs)
 
             self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
 
             if (pretrained_weights):
-                self.model.load_weights(pretrained_weights)
+                self.autoencoder.load_weights(pretrained_weights)
+
 
 
 
