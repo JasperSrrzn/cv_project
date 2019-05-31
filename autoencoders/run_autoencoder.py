@@ -7,7 +7,7 @@ do_training = 1
 save_autoenco = 1
 
 #define parameters
-latent_dimension = 10
+latent_dimension = 100
 print('latent dimension:' +str(latent_dimension))
 num_epochs = 100
 num_filters = 16
@@ -18,7 +18,7 @@ data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive//autoencoders/saved_models/'
 
 #name for storing best_autoencoder
-name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
+name = 'autoencoder_'+loss+'_'+str(latent_dimension)
 
 
 # read train,validation and test data
