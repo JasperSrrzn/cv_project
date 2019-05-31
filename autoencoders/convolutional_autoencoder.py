@@ -85,7 +85,7 @@ class ConvolutionalAutoencoder(object):
 
 
     def fit(self,X_train,X_validation,name,epochs=50):
-        model_dir = os.path.dirname(os.getcwd()) + '/content/gdrive/My Drive/autoencoders/saved_models/'
+        model_dir = os.path.dirname('/content/gdrive/My Drive/autoencoders/saved_models/'
         callbacks = [ModelCheckpoint(model_dir+name,monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False),
                     EarlyStopping(patience=20, verbose=1),
                     ReduceLROnPlateau(patience=10, verbose=1),
