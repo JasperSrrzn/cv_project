@@ -7,11 +7,11 @@ do_training = 1
 save_autoenco = 1
 
 #define parameters
-latent_dimension = 1000
+latent_dimension = 10
 print('latent dimension:' +str(latent_dimension))
 num_epochs = 100
 num_filters = 16
-loss = 'xent'
+loss = 'mse'
 
 #directory for stored data and stored model
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
