@@ -20,7 +20,7 @@ class ConvolutionalAutoencoder(object):
         self.latent_dim = latent_dim
         self.n_filters = n_filters
 
-                if pretrained_weights==None:
+        if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
             conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
