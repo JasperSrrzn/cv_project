@@ -11,16 +11,17 @@ do_training = 1
 save_autoenco = 0
 
 #define parameters
-latent_dimension = 100
+latent_dimension = 10
 num_epochs = 100
 num_filters = 16
+loss = 'xent'
 
 #directory for stored data and stored model
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = os.path.dirname(os.getcwd())+'/autoencoders/saved_models/'
 
 #name for storing best_autoencoder
-name = 'autoencoder_cat_ent_'+str(latent_dimension)+'.h5'
+name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
 
 
 # read train,validation and test data
