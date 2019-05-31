@@ -1,6 +1,7 @@
 from keras.layers import *
 from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from keras.optimizers import *
 import os
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
