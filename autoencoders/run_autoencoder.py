@@ -9,7 +9,7 @@ save_autoenco = 0
 #define parameters
 latent_dimension = 10
 print('latent dimension:' +str(latent_dimension))
-num_epochs = 1
+num_epochs = 100
 num_filters = 16
 loss = 'xent'
 
