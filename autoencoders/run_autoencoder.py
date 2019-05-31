@@ -50,12 +50,12 @@ X_val_enc = best_autoencoder.encode(X_validation)
 #reconstruct
 X_test_rec = best_autoencoder.predict(X_test)
 
-np.save('/content/gdrive/My Drive/reconstructions/X_pred_rec_'+name+'.npy',X_test_rec)
+np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_pred_rec_'+name+'.npy',X_test_rec)
 
 
 # save encoded vars
 if save_autoenco == 1:
     print('saving encoded vars')
-    np.save('/content/gdrive/My Drive/reconstructions/X_train_enc_'+name+'.npy',X_train_enc)
-    np.save('/content/gdrive/My Drive/reconstructions/X_test_enc_'+name+'.npy',X_test_enc)
-    np.save('/content/gdrive/My Drive/reconstructions/X_val_enc_'+name+'.npy',X_val_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_enc_'+name+'.npy',X_train_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_enc_'+name+'.npy',X_test_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_enc_'+name+'.npy',X_val_enc)
