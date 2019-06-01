@@ -73,7 +73,7 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic example')
 plt.legend(loc="lower right")
 plt.savefig('./figures/freeze/'+name[:-3]+'_roc.eps')
-"""
+
 
 #unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
@@ -104,7 +104,7 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic example')
 plt.legend(loc="lower right")
 plt.savefig('./figures/unfreeze/'+name[:-3]+'_roc.eps')
-
+"""
 
 #random unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
