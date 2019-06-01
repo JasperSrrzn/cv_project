@@ -5,11 +5,11 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
 #define parameters
-latent_dimension = 100
-loss = 'xent'
+latent_dimension = 1000
+loss = 'mse'
 
 #name for storing best_autoencoder
-name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
+name = 'autoencoder_'+loss+'_'+str(latent_dimension)
 
 
 data_dir = os.path.dirname(os.path.dirname(os.getcwd()))+'/output_data/'
@@ -25,7 +25,7 @@ Y_test = np.argmax(Y_test,axis=1)+1
 
 
 X_test = np.load(data_dir+'x_test_img.npy')
-X_pred = np.load('X_pred_rec_'+name+'.npy)
+X_pred = np.load('X_pred_rec_'+name+'.npy')
 
 ################make tSNE plots to visualize the distribution of data points in 2d #######################"
 X_test_enc = np.load(enc_dir+'X_test_enc_'+name+'.npy')
@@ -44,7 +44,7 @@ for g in range(len(test_codes_embedded)):
 plt.legend()
 plt.title('tSNE on test set')
 try:
-    os.mkdir(fig_dir'+name[:-3])
+    os.mkdir(fig_dir+name[:-3])
 except:
     pass
 plt.savefig(fig_dir+name[:-3]+'/tsne_test.eps')
@@ -67,11 +67,11 @@ plt.subplot(1,2,1)
 plt.imshow(X_test[test_id])
 
 plt.subplot(1,2,2)
-test = Y_pred[test_id]
+test = X_pred[test_id]
 plt.imshow(test)
 
-plt.show()
+plt.savefig('example_reconstruction_'+name+'.eps')
 
 ############ calculate MSE on test ######################"
 
-print(mean_squared_error(X_test,X_pred))
+print(mean_squared_error(X_test.flatten(),X_pred.flatten()))

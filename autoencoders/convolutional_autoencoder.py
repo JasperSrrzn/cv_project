@@ -109,3 +109,6 @@ class ConvolutionalAutoencoder(object):
 
     def predict(self,X):
         return self.autoencoder.predict(X)
+
+    def get_weights(self):
+        return self.autoencoder.get_weights()
