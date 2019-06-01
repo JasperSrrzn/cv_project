@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 n_classes = 5
 num_epochs = 100
-latent_dimension = 1000
+latent_dimension = 100
 n_filters = 16
 loss_of_autoencoder = 'xent'
 name = 'classifier_'+loss_of_autoencoder+'_'+str(latent_dimension)+'.h5'
@@ -24,14 +24,12 @@ Y_validation = np.load(data_dir+'y_val_lab.npy')
 X_test = np.load(data_dir+'x_test_img.npy')
 Y_test = np.load(data_dir+'y_test_lab.npy')
 
-
 X_train = np.array([X_train[i] for i in range(len(Y_train)) if sum(Y_train[i])==1])
 Y_train = np.array([Y_train[i] for i in range(len(Y_train)) if sum(Y_train[i])==1])
 X_validation = np.array([X_validation[i] for i in range(len(Y_validation)) if sum(Y_validation[i])==1])
 Y_validation = np.array([Y_validation[i] for i in range(len(Y_validation)) if sum(Y_validation[i])==1])
 X_test = np.array([X_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
 Y_test = np.array([Y_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
-
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,num_epochs)

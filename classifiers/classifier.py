@@ -20,7 +20,8 @@ class classifier(object):
         self.encoder = self.ae.encoder
         prediction = Dense(5,activation='softmax')(self.encoder.layers[-1].output)
         self.classifier = Model(input=self.encoder.input,output=prediction)
-        self.classifier.compile(optimizer='adam', loss='binary_crossentropy')
+        self.classifier.compile(optimizer='adam', loss='categorical_crossentropy')
+    
 
     def fit_freeze(self,X_train,y_train,X_validation,y_validation,epochs):
         for layer in self.classifier.layers[:-2]:
