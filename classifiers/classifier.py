@@ -38,7 +38,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs,datagen=datagen, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
@@ -50,7 +50,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs,datagen=datagen, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
 
@@ -64,7 +64,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs,datagen=datagen, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def reset_weights(self):
