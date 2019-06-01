@@ -1,4 +1,4 @@
-from autoencoders.convolutional_autoencoder import ConvolutionalAutoencoder
+from convolutional_autoencoder import ConvolutionalAutoencoder
 from keras.layers import Activation, Dense
 from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
@@ -21,7 +21,7 @@ class classifier(object):
         prediction = Dense(5,activation='softmax')(self.encoder.layers[-1].output)
         self.classifier = Model(input=self.encoder.input,output=prediction)
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy')
-    
+
 
     def fit_freeze(self,X_train,y_train,X_validation,y_validation,epochs):
         for layer in self.classifier.layers[:-2]:
@@ -75,5 +75,3 @@ class classifier(object):
 
     def load_weights(self,path=None):
         self.classifier.load_weights(path)
-
-
