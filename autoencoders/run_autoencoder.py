@@ -9,7 +9,7 @@ save_autoenco = 1
 #define parameters
 latent_dimension = 100
 num_epochs = 1000
-num_filters = 4
+num_filters = 2
 loss = 'xent'
 
 #directory for stored data and stored model
@@ -55,6 +55,6 @@ np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_pred_rec_'+name
 # save encoded vars
 if save_autoenco == 1:
     print('saving encoded vars')
-    np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_train_enc_'+name[:-3]+'.npy',X_train_enc)
-    np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_test_enc_'+name[:-3]+'.npy',X_test_enc)
-    np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_val_enc_'+name[:-3]+'.npy',X_val_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_enc_'+name[:-3]+'.npy',X_train_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_enc_'+name[:-3]+'.npy',X_test_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_enc_'+name[:-3]+'.npy',X_val_enc)
