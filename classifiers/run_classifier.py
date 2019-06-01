@@ -45,7 +45,7 @@ datagen = ImageDataGenerator(
 
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_freeze(X_train=X_train,y_train = Y_train,X_validation = X_validation,y_validation = Y_validation,datagen=datagen,epochs=num_epochs)
+clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_freeze+name)
 Y_pred = best_clf.predict(X_test)
