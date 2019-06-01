@@ -3,13 +3,15 @@ from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.optimizers import *
 import os
+from keras import regularizers
+
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
-    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same')(input_tensor)
+    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.001))(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same')(x)
+    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.001))(x)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
@@ -76,7 +78,7 @@ class ConvolutionalAutoencoder(object):
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
-            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
+            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
 
             if (pretrained_weights):
                 self.autoencoder.load_weights(pretrained_weights)

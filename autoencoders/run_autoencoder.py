@@ -4,12 +4,12 @@ import numpy as np
 
 # flag for training or read from test.h5
 do_training = 1
-save_autoenco = 0
+save_autoenco = 1
 
 #define parameters
 latent_dimension = 100
-num_epochs = 1
-num_filters = 16
+num_epochs = 100
+num_filters = 4
 loss = 'xent'
 
 #directory for stored data and stored model
