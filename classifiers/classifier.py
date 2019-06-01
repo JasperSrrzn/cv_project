@@ -1,5 +1,5 @@
 from convolutional_autoencoder import ConvolutionalAutoencoder
-from keras.layers import Activation, Dense
+from keras.layers import Activation, Dense, BatchNormalization
 from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 import os
@@ -22,7 +22,7 @@ class classifier(object):
         x = BatchNormalization()(x)
         x = Dense(self.latent_dimension,activation='relu',kernel_initializer='he_normal')(x)
         x = BatchNormalization()(x)
-        prediction = Dense(5,activation='softmax')(x)
+        prediction = Dense(5,activation='softmax',kernel_initializer='he_normal')(x)
         self.classifier = Model(input=self.encoder.input,output=prediction)
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy',metrics=['accuracy'])
 
