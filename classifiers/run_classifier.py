@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
+from keras import regularizers
 
 n_classes = 5
 num_epochs = 1000
@@ -42,7 +43,7 @@ datagen = ImageDataGenerator(
     height_shift_range=0.2,
     vertical_flip=True)
 
-
+"""
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
@@ -72,6 +73,7 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic example')
 plt.legend(loc="lower right")
 plt.savefig('./figures/freeze/'+name[:-3]+'_roc.eps')
+"""
 
 #unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)

@@ -4,7 +4,7 @@ from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 import os
 import numpy as np
-
+from keras import regularizers
 
 class classifier(object):
 
@@ -18,11 +18,8 @@ class classifier(object):
         self.ae = ConvolutionalAutoencoder(self.latent_dimension,self.n_filters)
         self.ae.load_weights(self.ae_model_dir+self.ae_name)
         self.encoder = self.ae.encoder
-        x = Dense(self.latent_dimension,activation='relu',kernel_initializer='he_normal')(self.encoder.layers[-1].output)
-        x = BatchNormalization()(x)
-        x = Dense(self.latent_dimension,activation='relu',kernel_initializer='he_normal')(x)
-        x = BatchNormalization()(x)
-        prediction = Dense(5,activation='softmax',kernel_initializer='he_normal')(x)
+        x = BatchNormalization()(self.encoder.layers[-1].output)
+        prediction = Dense(5,activation='softmax',kernel_initializer='he_normal',kernel_regularizer=.regularizers.l1_l2(l1=0.01, l2=0.01))(x)
         self.classifier = Model(input=self.encoder.input,output=prediction)
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy',metrics=['accuracy'])
 
@@ -38,7 +35,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
@@ -50,7 +47,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
 
@@ -64,7 +61,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=1000,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train, batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def reset_weights(self):
