@@ -6,7 +6,7 @@ from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import train_test_split
 
 n_classes = 5
-num_epochs = 100
+num_epochs = 1000
 latent_dimension = 100
 n_filters = 16
 loss_of_autoencoder = 'xent'
