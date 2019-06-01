@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import train_test_split
+from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 5
 num_epochs = 1000
@@ -30,9 +31,21 @@ X_validation = np.array([X_validation[i] for i in range(len(Y_validation)) if su
 Y_validation = np.array([Y_validation[i] for i in range(len(Y_validation)) if sum(Y_validation[i])==1])
 X_test = np.array([X_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
 Y_test = np.array([Y_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
+
+#image generator
+
+datagen = ImageDataGenerator(
+    featurewise_center=True,
+    featurewise_std_normalization=True,
+    rotation_range=10,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    vertical_flip=True)
+
+
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,num_epochs)
+clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_freeze+name)
 Y_pred = best_clf.predict(X_test)
@@ -62,7 +75,7 @@ plt.savefig('./figures/freeze/'+name[:-3]+'_roc.eps')
 
 #unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_unfreeze(X_train,Y_train,X_validation,Y_validation,num_epochs)
+clf.fit_unfreeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_unfreeze+name)
 Y_pred = best_clf.predict(X_test)
@@ -93,7 +106,7 @@ plt.savefig('./figures/unfreeze/'+name[:-3]+'_roc.eps')
 
 #random unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_random(X_train,Y_train,X_validation,Y_validation,num_epochs)
+clf.fit_random(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_random+name)
 Y_pred = best_clf.predict(X_test)
