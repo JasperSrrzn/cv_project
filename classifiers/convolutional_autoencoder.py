@@ -3,13 +3,15 @@ from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.optimizers import *
 import os
+from keras import regularizers
+
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
-    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer = regularizers.l1_l2(l1=0.0001, l2=0.0001))(input_tensor)
+    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.001))(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer = regularizers.l1_l2(l1=0.0001, l2=0.0001))(x)
+    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.001))(x)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
@@ -49,7 +51,7 @@ class ConvolutionalAutoencoder(object):
 
             self.encoder = Model(input=inputs,output=latent)
 
-            f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]),kernel_regularizer = regularizers.l1_l2(l1=0.0001, l2=0.0001))(latent)
+            f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]))(latent)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(conv5)
@@ -72,11 +74,11 @@ class ConvolutionalAutoencoder(object):
             up9  = Dropout(0.2)(up9)
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
-            outputs = Conv2D(3 , (1,1), activation='sigmoid',kernel_regularizer = regularizers.l1_l2(l1=0.001, l2=0.0001))(conv9)
+            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
-            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
+            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
 
             if (pretrained_weights):
                 self.autoencoder.load_weights(pretrained_weights)

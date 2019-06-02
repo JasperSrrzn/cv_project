@@ -10,14 +10,13 @@ from keras import regularizers
 n_classes = 5
 num_epochs = 1000
 latent_dimension = 100
-n_filters = 16
+n_filters = 2
 loss_of_autoencoder = 'xent'
 name = 'classifier_'+loss_of_autoencoder+'_'+str(latent_dimension)+'.h5'
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
-model_dir_freeze = os.path.dirname(os.getcwd())+'/classifiers/saved_models/freeze/'
-model_dir_unfreeze = os.path.dirname(os.getcwd())+'/classifiers/saved_models/unfreeze/'
-model_dir_random = os.path.dirname(os.getcwd())+'/classifiers/saved_models/random/'
-
+model_dir_freeze ='/content/gdrive/My Drive/classifiers/saved_models/freeze/'
+model_dir_unfreeze = '/content/gdrive/My Drive/classifiers/saved_models/unfreeze/'
+model_dir_random = '/content/gdrive/My Drive/classifiers/saved_models/random/'
 # read train data
 X_train = np.load(data_dir+'x_train_img.npy')
 Y_train = np.load(data_dir+'y_train_lab.npy')
@@ -36,14 +35,14 @@ Y_test = np.array([Y_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
 #image generator
 
 datagen = ImageDataGenerator(
-    featurewise_center=True,
-    featurewise_std_normalization=True,
+    featurewise_center=False,
+    featurewise_std_normalization=False,
     rotation_range=10,
     width_shift_range=0.2,
     height_shift_range=0.2,
     vertical_flip=True)
 
-"""
+
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
@@ -104,7 +103,6 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic example')
 plt.legend(loc="lower right")
 plt.savefig('./figures/unfreeze/'+name[:-3]+'_roc.eps')
-"""
 
 #random unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
