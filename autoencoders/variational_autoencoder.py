@@ -134,7 +134,7 @@ class VariationalConvolutionalAutoencoder(object):
         self.vae.load_weights(path)
 
     def predict(self,X):
-        return self.vae.apredict(X)
+        return self.vae.predict(X)
 
     def get_weights(self):
         return self.vae.get_weights()
