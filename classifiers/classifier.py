@@ -25,7 +25,7 @@ class classifier(object):
         print(self.classifier.summary())
 
 
-    def fit_freeze(self,X_train,y_train,X_validation,y_validation,epochs):
+    def fit_freeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
         for layer in self.classifier.layers[:-2]:
             layer.trainable = False
         model_dir = '/content/gdrive/My Drive/classifiers/saved_models/freeze/'
@@ -35,11 +35,11 @@ class classifier(object):
                      TensorBoard(log_dir='./logs/freeze/' + self.name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-
-        self.classifier.fit(x=X_train, y=y_train,epochs=epochs, validation_data=[X_validation, y_validation],
+        datagen.fit(X_train)
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
-    def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,epochs):
+    def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
         model_dir = '/content/gdrive/My Drive/classifiers/saved_models/unfreeze/'
         callbacks = [ModelCheckpoint(model_dir + self.name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=30, verbose=1),
@@ -47,11 +47,12 @@ class classifier(object):
                      TensorBoard(log_dir='./logs/unfreeze/' + self.name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        self.classifier.fit(x=X_train, y=y_train,epochs=epochs, validation_data=[X_validation, y_validation],
+        datagen.fit(X_train)
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
 
-    def fit_random(self,X_train,y_train,X_validation,y_validation,epochs):
+    def fit_random(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
         self.reset_weights()
         model_dir = '/content/gdrive/My Drive/classifiers/saved_models/random/'
         callbacks = [ModelCheckpoint(model_dir + self.name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
@@ -60,7 +61,8 @@ class classifier(object):
                      TensorBoard(log_dir='./logs/unfreeze/' + self.name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        self.classifier.fit(x=X_train, y=y_train,epochs=epochs, validation_data=[X_validation, y_validation],
+        datagen.fit(X_train)
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def reset_weights(self):
