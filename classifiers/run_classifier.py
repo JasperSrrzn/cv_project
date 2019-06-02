@@ -14,9 +14,9 @@ n_filters = 2
 loss_of_autoencoder = 'xent'
 name = 'classifier_'+loss_of_autoencoder+'_'+str(latent_dimension)+'.h5'
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
-model_dir_freeze ='/content/gdrive/My Drive/classifiers/saved_models/freeze/'
-model_dir_unfreeze = '/content/gdrive/My Drive/classifiers/saved_models/unfreeze/'
-model_dir_random = '/content/gdrive/My Drive/classifiers/saved_models/random/'
+model_dir_freeze ='/content/gdrive/My Drive//classifiers/saved_models/freeze/'
+model_dir_unfreeze = '/content/gdrive/My Drive//classifiers/saved_models/unfreeze/'
+model_dir_random = '/content/gdrive/My Drive//classifiers/saved_models/random/'
 # read train data
 X_train = np.load(data_dir+'x_train_img.npy')
 Y_train = np.load(data_dir+'y_train_lab.npy')
