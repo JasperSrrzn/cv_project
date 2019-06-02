@@ -4,6 +4,7 @@ from keras import backend as K
 from keras.losses import binary_crossentropy, mse
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 import os
+from keras import regularizers
 
 def sampling(args):
     z_mean, z_log_var = args
