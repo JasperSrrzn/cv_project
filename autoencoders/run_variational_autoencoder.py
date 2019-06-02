@@ -3,6 +3,7 @@ from variational_autoencoder import VariationalConvolutionalAutoencoder
 import os
 import numpy as np
 from keras.layers import *
+from keras.preprocessing.image import ImageDataGenerator
 
 # flag for training or read from test.h5
 do_training = 1
