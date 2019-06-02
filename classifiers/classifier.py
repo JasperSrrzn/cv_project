@@ -35,8 +35,8 @@ class classifier(object):
                      TensorBoard(log_dir='./logs/freeze/' + self.name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True, validation_data=[X_validation, y_validation],
+        #datagen.fit(X_train)
+        self.classifier.fit_generator(x=X_train, y=y_train,epochs=epochs, shuffle=True, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
@@ -47,8 +47,8 @@ class classifier(object):
                      TensorBoard(log_dir='./logs/unfreeze/' + self.name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
+        #datagen.fit(X_train)
+        self.classifier.fit_generator(x=X_train, y=y_train,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
 
@@ -62,7 +62,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(x=X_train, y=y_train,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def reset_weights(self):
