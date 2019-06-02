@@ -2,6 +2,7 @@ from convolutional_autoencoder import ConvolutionalAutoencoder
 from variational_autoencoder import VariationalConvolutionalAutoencoder
 import os
 import numpy as np
+from keras.layers import *
 
 # flag for training or read from test.h5
 do_training = 1
