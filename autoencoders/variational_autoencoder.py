@@ -1,4 +1,4 @@
-from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, BatchNormalization, Activation, Input,InputLayer, Dense, Flatten, Reshape, Lambda, Conv2DTranspose
+from keras.layers import Input, Conv2D, MaxPooling2D, Dropout UpSampling2D, BatchNormalization, Activation, Input,InputLayer, Dense, Flatten, Reshape, Lambda, Conv2DTranspose
 from keras.models import Model, Sequential
 from keras import backend as K
 from keras.losses import binary_crossentropy, mse
