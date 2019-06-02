@@ -123,7 +123,7 @@ class VariationalConvolutionalAutoencoder(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.vae.fit_generator(datagen.flow(x=X_train,y=None,batch_size=32),steps_per_epoch=100,epochs=epochs,validation_data=(X_validation,None),callbacks=callbacks)
+        self.vae.fit_generator(datagen.flow(x=X_train,batch_size=32),steps_per_epoch=100,epochs=epochs,validation_data=(X_validation,None),callbacks=callbacks)
 
     def encode(self,X):
         return self.encoder.predict(X)
