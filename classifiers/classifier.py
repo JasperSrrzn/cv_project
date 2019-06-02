@@ -22,6 +22,7 @@ class classifier(object):
         prediction = Dense(5,activation='softmax',kernel_initializer='he_normal',kernel_regularizer=regularizers.l2(0.001))(x)
         self.classifier = Model(input=self.encoder.input,output=prediction)
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy',metrics=['accuracy'])
+        print(self.classifier.summary())
 
 
     def fit_freeze(self,X_train,y_train,X_validation,y_validation,epochs):
