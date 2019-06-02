@@ -62,24 +62,18 @@ class VariationalConvolutionalAutoencoder(object):
             latent = Flatten()(conv5)
 
             #generate latent representation
-            self.mean_encoder = Sequential()
-            self.mean_encoder.add(BatchNormalization())
-            self.mean_encoder.add(Dense(self.latent_dim))
+
+            m = BatchNormalization(latent)
+            z_mean = Dense(self.latent_dimension)(m)
 
 
-            self.logvar_encoder = Sequential()
-            self.logvar_encoder.add(BatchNormalization())
-            self.logvar_encoder.add(Dense(self.latent_dim))
+            l = BatchNormalization(latent)
+            z_logvar = Dense(self.latent_dimension)(l)
 
+            sample = Lambda(sampling)([z_mean, z_logvar])
+            #sample = sample_layer
 
-            input = Input((224, 224, 3))
-            code = self.encoder(input)
-            z_mean = self.mean_encoder(code)
-            z_logvar = self.logvar_encoder(code)
-            sample_layer = Lambda(sampling)
-            sample = sample_layer([z_mean, z_logvar])
-
-            self.latent_encoder = Model(input,z_mean)
+            self.encoder = Model(input,z_mean)
 
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(sample)
 
@@ -131,7 +125,7 @@ class VariationalConvolutionalAutoencoder(object):
         self.vae.fit(x=X_train,epochs=epochs,batch_size=2,validation_data=(X_validation,None),callbacks=callbacks)
 
     def encode(self,X):
-        return self.latent_encoder.predict(X)
+        return self.encoder.predict(X)
 
     def decode(self,X):
         return self.decoder.predict(X)
