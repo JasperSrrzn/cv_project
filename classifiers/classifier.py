@@ -13,9 +13,9 @@ class classifier(object):
         self.loss = loss
         self.n_filters = n_filters
         self.name = 'classifier_'+loss+'_'+str(latent_dimension)+'.h5'
-        self.ae_name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
+        self.ae_name = 'variational_autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
         self.ae_model_dir = os.path.dirname(os.getcwd()) + '/autoencoders/saved_models/'
-        self.ae = ConvolutionalAutoencoder(self.latent_dimension,self.n_filters)
+        self.ae = VariationalConvolutionalAutoencoder(self.latent_dimension,self.n_filters)
         self.ae.load_weights(self.ae_model_dir+self.ae_name)
         self.encoder = self.ae.encoder
         x = BatchNormalization()(self.encoder.layers[-1].output)
@@ -36,7 +36,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True, validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,datagen,epochs):
@@ -48,7 +48,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
 
@@ -62,7 +62,7 @@ class classifier(object):
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         datagen.fit(X_train)
-        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, validation_data=[X_validation, y_validation],
+        self.classifier.fit_generator(datagen.flow(x=X_train, y=y_train,batch_size=32),steps_per_epoch=100,epochs=epochs, shuffle=True,validation_data=[X_validation, y_validation],
                              callbacks=callbacks)
 
     def reset_weights(self):
