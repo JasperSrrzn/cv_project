@@ -44,19 +44,26 @@ class ConvolutionalAutoencoder(object):
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
             pool4 = Dropout(0.2)(pool4)
 
-            conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
+            convx = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
+            poolx = MaxPooling2D(pool_size=(2, 2))(convx)
+            poolx = Dropout(0.2)(poolx)
+
+            conv5 = conv2d_block(poolx, n_filters*32, kernel_size=3, batchnorm=True)
 
             shape = conv5.shape
-            f1 = Flatten()(conv5)
+            latent = Flatten()(conv5)
 
-            latent = Dense(self.latent_dim)(f1)
 
             self.encoder = Model(input=inputs,output=latent)
 
-            f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]))(latent)
-            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
+            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(latent)
 
-            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
+            upy = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
+            upy = concatenate([upy,convx])
+            upy = Dropout(0.2)(upy)
+            convy = conv2d_block(upy, n_filters*8, kernel_size=3, batchnorm=True)
+
+            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(convy)
             up6 = concatenate([up6,conv4])
             up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
