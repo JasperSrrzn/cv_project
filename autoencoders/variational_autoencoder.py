@@ -74,8 +74,8 @@ class VariationalConvolutionalAutoencoder(object):
             #sample = sample_layer
 
             self.encoder = Model(inputs,z_mean)
-
-            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(sample)
+            f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
+            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             upy = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
             upy = concatenate([upy,convx])
