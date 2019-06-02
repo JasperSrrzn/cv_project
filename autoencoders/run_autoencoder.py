@@ -27,12 +27,10 @@ X_test = np.load(data_dir+'x_test_img.npy')
 
 
 
-
 if do_training == 1:
-    print('starting training')
+    print('starting training...')
     #initialize model
     autoencoder = ConvolutionalAutoencoder(latent_dimension,num_filters)
-
     #train model
     autoencoder.fit(X_train=X_train,X_validation=X_validation,name=name,epochs=num_epochs)
 
