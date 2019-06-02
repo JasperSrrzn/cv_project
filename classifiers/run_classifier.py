@@ -10,7 +10,7 @@ from keras import regularizers
 n_classes = 5
 num_epochs = 1000
 latent_dimension = 100
-n_filters = 2
+n_filters = 1
 loss_of_autoencoder = 'xent'
 name = 'classifier_'+loss_of_autoencoder+'_'+str(latent_dimension)+'.h5'
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
