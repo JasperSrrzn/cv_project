@@ -56,7 +56,7 @@ class ConvolutionalAutoencoder(object):
             f2 = Dense(int(shape[1])*int(shape[2])*int(shape[3]))(latent)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
-            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(conv5)
+            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
             up6 = concatenate([up6,conv4])
             up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
