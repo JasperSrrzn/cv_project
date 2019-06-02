@@ -19,7 +19,7 @@ class classifier(object):
         self.ae.load_weights(self.ae_model_dir+self.ae_name)
         self.encoder = self.ae.encoder
         x = BatchNormalization()(self.encoder.layers[-1].output)
-        prediction = Dense(5,activation='softmax',kernel_initializer='he_normal',kernel_regularizer=regularizers.l2(l2=0.001))(x)
+        prediction = Dense(5,activation='softmax',kernel_initializer='he_normal',kernel_regularizer=regularizers.l2(0.001))(x)
         self.classifier = Model(input=self.encoder.input,output=prediction)
         self.classifier.compile(optimizer='adam', loss='categorical_crossentropy',metrics=['accuracy'])
 
