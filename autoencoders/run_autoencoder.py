@@ -9,12 +9,12 @@ save_autoenco = 1
 #define parameters
 latent_dimension = 100
 num_epochs = 1000
-num_filters = 2
+num_filters = 1
 loss = 'xent'
 
 #directory for stored data and stored model
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
-model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
+model_dir = '/content/gdrive/My Drive//autoencoders/saved_models/'
 
 #name for storing best_autoencoder
 name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
