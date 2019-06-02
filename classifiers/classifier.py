@@ -27,7 +27,7 @@ class classifier(object):
     def fit_freeze(self,X_train,y_train,X_validation,y_validation,epochs):
         for layer in self.classifier.layers[:-2]:
             layer.trainable = False
-        model_dir = os.path.dirname(os.getcwd()) + '/classifiers/saved_models/freeze/'
+        model_dir = '/content/gdrive/My Drive/classifiers/saved_models/freeze/'
         callbacks = [ModelCheckpoint(model_dir + self.name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=30, verbose=1),
                      ReduceLROnPlateau(patience=15, verbose=1),
@@ -39,7 +39,7 @@ class classifier(object):
                              callbacks=callbacks)
 
     def fit_unfreeze(self,X_train,y_train,X_validation,y_validation,epochs):
-        model_dir = os.path.dirname(os.getcwd()) + '/classifiers/saved_models/unfreeze/'
+        model_dir = '/content/gdrive/My Drive/classifiers/saved_models/unfreeze/'
         callbacks = [ModelCheckpoint(model_dir + self.name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=30, verbose=1),
                      ReduceLROnPlateau(patience=15, verbose=1),
@@ -52,7 +52,7 @@ class classifier(object):
 
     def fit_random(self,X_train,y_train,X_validation,y_validation,epochs):
         self.reset_weights()
-        model_dir = os.path.dirname(os.getcwd()) + '/classifiers/saved_models/random/'
+        model_dir = '/content/gdrive/My Drive/classifiers/saved_models/random/'
         callbacks = [ModelCheckpoint(model_dir + self.name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=30, verbose=1),
                      ReduceLROnPlateau(patience=15, verbose=1),
