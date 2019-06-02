@@ -13,7 +13,7 @@ class classifier(object):
         self.loss = loss
         self.n_filters = n_filters
         self.name = 'classifier_'+loss+'_'+str(latent_dimension)+'.h5'
-        self.ae_name = 'autoencoder_'+loss+'_'+str(latent_dimension)
+        self.ae_name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
         self.ae_model_dir = os.path.dirname(os.getcwd()) + '/autoencoders/saved_models/'
         self.ae = ConvolutionalAutoencoder(self.latent_dimension,self.n_filters)
         self.ae.load_weights(self.ae_model_dir+self.ae_name)
