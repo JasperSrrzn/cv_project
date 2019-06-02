@@ -32,20 +32,10 @@ Y_validation = np.array([Y_validation[i] for i in range(len(Y_validation)) if su
 X_test = np.array([X_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
 Y_test = np.array([Y_test[i] for i in range(len(Y_test)) if sum(Y_test[i])==1])
 
-#image generator
-
-datagen = ImageDataGenerator(
-    featurewise_center=False,
-    featurewise_std_normalization=False,
-    rotation_range=10,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    vertical_flip=True)
-
 
 #freezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
+clf.fit_freeze(X_train,Y_train,X_validation,Y_validation,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_freeze+name)
 Y_pred = best_clf.predict(X_test)
@@ -76,7 +66,7 @@ plt.savefig('./figures/freeze/'+name[:-3]+'_roc.eps')
 
 #unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_unfreeze(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
+clf.fit_unfreeze(X_train,Y_train,X_validation,Y_validation,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_unfreeze+name)
 Y_pred = best_clf.predict(X_test)
@@ -106,7 +96,7 @@ plt.savefig('./figures/unfreeze/'+name[:-3]+'_roc.eps')
 
 #random unfreezed
 clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
-clf.fit_random(X_train,Y_train,X_validation,Y_validation,datagen,num_epochs)
+clf.fit_random(X_train,Y_train,X_validation,Y_validation,num_epochs)
 best_clf = classifier(latent_dimension,loss_of_autoencoder,n_filters)
 best_clf.load_weights(model_dir_random+name)
 Y_pred = best_clf.predict(X_test)
