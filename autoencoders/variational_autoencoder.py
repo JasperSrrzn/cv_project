@@ -64,11 +64,11 @@ class VariationalConvolutionalAutoencoder(object):
             #generate latent representation
 
             m = BatchNormalization()(latent)
-            z_mean = Dense(self.latent_dimension)(m)
+            z_mean = Dense(self.latent_dim)(m)
 
 
             l = BatchNormalization()(latent)
-            z_logvar = Dense(self.latent_dimension)(l)
+            z_logvar = Dense(self.latent_dim)(l)
 
             sample = Lambda(sampling)([z_mean, z_logvar])
             #sample = sample_layer
