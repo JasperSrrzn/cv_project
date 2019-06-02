@@ -114,7 +114,7 @@ class VariationalConvolutionalAutoencoder(object):
             self.vae.add_loss(vae_loss)
             self.vae.compile(optimizer='adam')
 
-    def fit(self,X_train,X_validation,name,epochs=50):
+    def fit(self,X_train,X_validation,datagen,name,epochs=50):
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
         callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=20, verbose=1),
@@ -122,7 +122,8 @@ class VariationalConvolutionalAutoencoder(object):
                      TensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        self.vae.fit(x=X_train,epochs=epochs,batch_size=2,validation_data=(X_validation,None),callbacks=callbacks)
+        datagen.fit(X_train)
+        self.vae.fit_generator(datagen.flow(x=X_train,y=None,batch_size=32),steps_per_epoch=100,epochs=epochs,batch_size=2,validation_data=(X_validation,None),callbacks=callbacks)
 
     def encode(self,X):
         return self.encoder.predict(X)
