@@ -5,7 +5,7 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
 #define parameters
-latent_dimension = 1000
+latent_dimension = 10
 loss = 'mse'
 
 #name for storing best_autoencoder
