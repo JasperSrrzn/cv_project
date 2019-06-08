@@ -5,8 +5,8 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
 #define parameters
-latent_dimension = 10
-loss = 'xent'
+latent_dimension = 1000
+loss = 'mse'
 
 #name for storing best_autoencoder
 name = 'autoencoder_'+loss+'_'+str(latent_dimension)
@@ -62,7 +62,7 @@ plt.title('tSNE on training set')
 plt.savefig(fig_dir+name[:-3]+'/tsne_train.eps')
 
 #############plot example reconstruction ########################"
-test_id = 18
+test_id = 17
 plt.subplot(1,2,1)
 plt.imshow(X_test[test_id])
 
