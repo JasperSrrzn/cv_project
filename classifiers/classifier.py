@@ -1,4 +1,4 @@
-from variational_autoencoder import VariationalConvolutionalAutoencoder
+from convolutional_autoencoder import ConvolutionalAutoencoder
 from keras.layers import Activation, Dense, BatchNormalization
 from keras.models import Model
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
