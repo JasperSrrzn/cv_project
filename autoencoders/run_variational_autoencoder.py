@@ -12,7 +12,7 @@ save_autoenco = 1
 #define parameters
 latent_dimension = 100
 num_epochs = 1000
-num_filters = 5
+num_filters = 16
 loss = 'xent'
 
 #directory for stored data and stored model
@@ -28,21 +28,12 @@ X_train = np.load(data_dir+'x_train_img.npy')
 X_validation = np.load(data_dir+'x_val_img.npy')
 X_test = np.load(data_dir+'x_test_img.npy')
 
-#image generator
-datagen = ImageDataGenerator(
-    featurewise_center=False,
-    featurewise_std_normalization=False,
-    rotation_range=20,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    vertical_flip = True)
-
 if do_training == 1:
     print('starting training...')
     #initialize model
     autoencoder = VariationalConvolutionalAutoencoder(latent_dimension,num_filters)
     #train model
-    autoencoder.fit(X_train=X_train,X_validation=X_validation,datagen=datagen,name=name,epochs=num_epochs)
+    autoencoder.fit(X_train=X_train,X_validation=X_validation,name=name,epochs=num_epochs)
 
 #select the best model (stored)
 best_autoencoder = VariationalConvolutionalAutoencoder(latent_dimension,num_filters)

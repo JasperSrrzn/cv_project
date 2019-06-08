@@ -74,6 +74,8 @@ class VariationalConvolutionalAutoencoder(object):
             #sample = sample_layer
 
             self.encoder = Model(inputs,z_mean)
+            self.logvar_encoder = Model(inputs,z_logvar)
+
             f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
@@ -114,7 +116,7 @@ class VariationalConvolutionalAutoencoder(object):
             self.vae.add_loss(vae_loss)
             self.vae.compile(optimizer='adam')
 
-    def fit(self,X_train,X_validation,datagen,name,epochs=50):
+    def fit(self,X_train,X_validation,name,epochs=50):
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
         callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=20, verbose=1),
@@ -122,8 +124,7 @@ class VariationalConvolutionalAutoencoder(object):
                      TensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3], histogram_freq=0, batch_size=32, write_graph=True,
                                  write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                  embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        datagen.fit(X_train)
-        self.vae.fit_generator(datagen.flow(x=X_train,y=X_train,batch_size=32),steps_per_epoch=100,epochs=epochs,validation_data=(X_validation,None),callbacks=callbacks)
+        self.vae.fit(x=X_train,y=X_train,epochs=epochs,validation_data=[X_validation,X_validation],callbacks=callbacks)
 
     def encode(self,X):
         return self.encoder.predict(X)
@@ -139,3 +140,6 @@ class VariationalConvolutionalAutoencoder(object):
 
     def get_weights(self):
         return self.vae.get_weights()
+
+    def return_latent_parameters(self,X):
+        return self.encoder.predict(X), self.logvar_encoder.predict(X)
