@@ -7,12 +7,17 @@ from keras import regularizers
 
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
-    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.01))(input_tensor)
+    """
+    constructs a block of convolutional layers and batchnormalization layers
+    """
+    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same',kernel_regularizer=regularizers.l2(0.01))(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
 
-    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',padding='same',kernel_regularizer=regularizers.l2(0.001))(x)
+    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same',kernel_regularizer=regularizers.l2(0.001))(x)
     if batchnorm:
         x = BatchNormalization()(x)
     x = Activation('relu')(x)
@@ -20,8 +25,13 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     return x
 
 class ConvolutionalAutoencoder(object):
+    """
+    constructs an object to easily call a convolutional autoencoder
+    """
     def __init__(self,latent_dim,n_filters,pretrained_weights=None):
-
+        """
+        initializes the architecture of the model
+        """
         self.latent_dim = latent_dim
         self.n_filters = n_filters
 
@@ -87,14 +97,26 @@ class ConvolutionalAutoencoder(object):
 
 
     def fit(self,X_train,X_validation,name,epochs=50):
+        """
+        function to fit the model constructed in the def __init__ function.
+        """
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
-        callbacks = [ModelCheckpoint(model_dir+name,monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False),
+        callbacks = [ModelCheckpoint(model_dir+name,monitor='val_loss', verbose=1, save_best_only=True,
+                                    save_weights_only=False),
                     EarlyStopping(patience=20, verbose=1),
                     ReduceLROnPlateau(patience=10, verbose=1),
-                    TensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3], histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
-        self.autoencoder.fit(x=X_train,y=X_train,epochs=epochs,validation_data=[X_validation,X_validation],callbacks=callbacks)
+                    TensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3],
+                                histogram_freq=0, batch_size=32, write_graph=True, write_grads=False,
+                                write_images=False, embeddings_freq=0, embeddings_layer_names=None,
+                                embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
+                                ]
+        self.autoencoder.fit(x=X_train,y=X_train,epochs=epochs,
+                            validation_data=[X_validation,X_validation],callbacks=callbacks)
 
     def save_weights(self,path=None,prefix=""):
+        """
+        function to save weight parameters of the model
+        """
         if path is None:
             path = os.get.cwd()
         self.encoder.save_weights(os.path.join(path,prefix + "encoder_weights.h5"))
@@ -104,13 +126,25 @@ class ConvolutionalAutoencoder(object):
         self.autoencoder.load_weights(path)
 
     def encode(self,input):
+        """
+        function to encode input
+        """
         return self.encoder.predict(input)
 
     def decode(self,codes):
+        """
+        function to decode latent representations
+        """
         return self.decoder.predict(codes)
 
     def predict(self,X):
+        """
+        function to reconstruct input images
+        """
         return self.autoencoder.predict(X)
 
     def get_weights(self):
+        """
+        function to retrieve the weight parameters of the model
+        """
         return self.autoencoder.get_weights()
