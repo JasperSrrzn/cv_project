@@ -83,18 +83,22 @@ class VariationalConvolutionalAutoencoder(object):
             input_size = (224, 224, 3)
             inputs = Input(input_size)
             conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
+            self.enc1 = Model(inputs=inputs,outputs=conv1)
             pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
             pool1 = Dropout(0.2)(pool1)
 
             conv2 = conv2d_block(pool1, n_filters*2, kernel_size=3, batchnorm=True)
+            self.enc2 = Model(inputs=inputs,outputs=conv2)
             pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
             pool2 = Dropout(0.2)(pool2)
 
             conv3 = conv2d_block(pool2, n_filters*4, kernel_size=3, batchnorm=True)
+            self.enc3 = Model(inputs=inputs,ouputs=conv3)
             pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
             pool3 = Dropout(0.2)(pool3)
 
             conv4 = conv2d_block(pool3, n_filters*8, kernel_size=3, batchnorm=True)
+            self.enc4 = Model(inputs=inputs,outputs=conv4)
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
             pool4 = Dropout(0.2)(pool4)
 
@@ -115,34 +119,42 @@ class VariationalConvolutionalAutoencoder(object):
             sample = Lambda(sampling)([z_mean, z_logvar])
             #sample = sample_layer
 
-            self.encoder = Model(inputs=inputs,outputs=z_mean)
-            self.logvar_encoder = Model(inputs,z_logvar)
+            input1_size = conv1.shape
+            input2_size = conv2.shape
+            input3_size = conv3.shape
+            input4_size = conv4.shape
+            inputs1 = Input(input1_size)(conv1)
+            inputs2 = Input(input2_size)(conv2)
+            inputs3 = Input(input3_size)(conv3)
+            inputs4 = Input(input4_size)(conv4)
+
+            self.encoder = Model(inputs=inputs,outputs=[z_mean,z_logvar,conv1,conv2,conv3,conv4])
 
             f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
-            up6 = concatenate([up6,conv4])
+            up6 = concatenate([up6,inputs4])
             up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
 
             up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
-            up7 = concatenate([up7, conv3])
+            up7 = concatenate([up7, inputs3])
             up7 = Dropout(0.2)(up7)
             conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
 
             up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
-            up8 = concatenate([up8, conv2])
+            up8 = concatenate([up8, inputs2])
             up8 = Dropout(0.2)(up8)
             conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
 
             up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
-            up9 = concatenate([up9, conv1])
+            up9 = concatenate([up9, inputs1])
             up9  = Dropout(0.2)(up9)
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
-
+            self.decoder = Mode(inputs=[sample,inputs1,inputs2,inputs3,inputs4],outputs=ouputs)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
@@ -166,8 +178,8 @@ class VariationalConvolutionalAutoencoder(object):
     def encode(self,X):
         return self.encoder.predict(X)
 
-    def decode(self,X,conv1,conv2,conv3,conv4):
-        return self.decoder.predict(X,conv1,conv2,conv3,conv4)
+    def decode(self,Z):
+        return self.decoder.predict(Z,conv1,conv2,conv3,conv4)
 
     def load_weights(self,path=None):
         self.vae.load_weights(path)
@@ -177,8 +189,3 @@ class VariationalConvolutionalAutoencoder(object):
 
     def get_weights(self):
         return self.vae.get_weights()
-
-    def return_latent_parameters(self,X):
-        z_mean, conv1, conv2, conv3, conv4 = self.encoder.predict(X)
-        z_log_var = self.logvar_encoder.predict(X)
-        return z_mean, z_log_var, conv1, conv2, conv3, conv4
