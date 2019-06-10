@@ -9,7 +9,7 @@ save_autoenco = 1
 #define parameters
 latent_dimension = 1000
 num_epochs = 1000
-num_filters = 16
+num_filters = 8
 loss = 'xent'
 
 #directory for stored data and stored model
