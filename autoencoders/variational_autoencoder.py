@@ -5,6 +5,7 @@ from keras.losses import binary_crossentropy, mse
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 import os
 from keras import regularizers
+from keras.optimizers import Adam
 
 def sampling(args):
     z_mean, z_log_var = args
@@ -150,7 +151,8 @@ class VariationalConvolutionalAutoencoder(object):
             kl_loss *= -0.5
             vae_loss = K.mean(reconstruction_loss + kl_loss)
             self.vae.add_loss(vae_loss)
-            self.vae.compile(optimizer='adam')
+            adam = Adam(lr=1e-4)
+            self.vae.compile(optimizer=adam)
 
     def fit(self,X_train,X_validation,name,epochs=50):
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
