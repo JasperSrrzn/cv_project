@@ -121,22 +121,22 @@ class VariationalConvolutionalAutoencoder(object):
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
-            up6 = concatenate([up6,inputs4])
+            up6 = concatenate([up6,conv4])
             up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
 
             up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
-            up7 = concatenate([up7, inputs3])
+            up7 = concatenate([up7, conv3])
             up7 = Dropout(0.2)(up7)
             conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
 
             up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
-            up8 = concatenate([up8, inputs2])
+            up8 = concatenate([up8, conv2])
             up8 = Dropout(0.2)(up8)
             conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
 
             up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
-            up9 = concatenate([up9, inputs1])
+            up9 = concatenate([up9, conv1])
             up9  = Dropout(0.2)(up9)
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
