@@ -41,17 +41,11 @@ best_autoencoder.load_weights(model_dir+name)
 best_autoencoder
 
 #encode the training set and test set
-X_train_enc,_,_,_,_ = best_autoencoder.encode(X_train)
-X_test_enc,_,_,_,_ = best_autoencoder.encode(X_test)
-X_val_enc,_,_,_,_ = best_autoencoder.encode(X_validation)
+X_train_enc = best_autoencoder.encode(X_train)
+X_test_enc = best_autoencoder.encode(X_test)
+X_val_enc= best_autoencoder.encode(X_validation)
 
-z_mean, z_logvar, conv1, conv2, conv3, conv4 = best_autoencoder.return_latent_parameters(X_train)
-epsilon = np.random_normal(z_mean.shape)
-samples = z_mean + np.exp(0.5*z_logvar)*epsilon
-new_images = best_autoencoder.decode(samples,conv1,conv2,conv3,conv4)
 
-print(new_images.shape)
-"""
 #reconstruct
 X_test_rec = best_autoencoder.predict(X_test)
 
@@ -64,4 +58,3 @@ if save_autoenco == 1:
     np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_enc_'+name[:-3]+'.npy',X_train_enc)
     np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_enc_'+name[:-3]+'.npy',X_test_enc)
     np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_enc_'+name[:-3]+'.npy',X_val_enc)
-"""
