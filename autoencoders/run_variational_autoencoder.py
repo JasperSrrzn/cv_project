@@ -17,7 +17,7 @@ data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive//autoencoders/saved_models/'
 
 #name for storing best_autoencoder
-name = 'autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
+name = 'variational_autoencoder_'+loss+'_'+str(latent_dimension)+'.h5'
 
 
 # read train,validation and test data
