@@ -9,7 +9,7 @@ latent_dimension = 1000
 loss = 'xent'
 
 #name for storing best_autoencoder
-name = 'autoencoder_'+loss+'_'+str(latent_dimension)
+name = 'variational_autoencoder_'+loss+'_'+str(latent_dimension)
 
 data_dir = os.path.dirname(os.path.dirname(os.getcwd()))+'/output_data/'
 fig_dir = os.path.dirname(os.getcwd())+'/figures/'
