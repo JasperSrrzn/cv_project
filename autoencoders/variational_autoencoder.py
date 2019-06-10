@@ -83,22 +83,22 @@ class VariationalConvolutionalAutoencoder(object):
             input_size = (224, 224, 3)
             inputs = Input(input_size)
             conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
-            self.enc1 = Model(inputs=inputs,outputs=conv1)
+            self.enc1 = Model(input=inputs,output=conv1)
             pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
             pool1 = Dropout(0.2)(pool1)
 
             conv2 = conv2d_block(pool1, n_filters*2, kernel_size=3, batchnorm=True)
-            self.enc2 = Model(inputs=inputs,outputs=conv2)
+            self.enc2 = Model(input=inputs,output=conv2)
             pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
             pool2 = Dropout(0.2)(pool2)
 
             conv3 = conv2d_block(pool2, n_filters*4, kernel_size=3, batchnorm=True)
-            self.enc3 = Model(inputs=inputs,ouputs=conv3)
+            self.enc3 = Model(input=inputs,ouput=conv3)
             pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
             pool3 = Dropout(0.2)(pool3)
 
             conv4 = conv2d_block(pool3, n_filters*8, kernel_size=3, batchnorm=True)
-            self.enc4 = Model(inputs=inputs,outputs=conv4)
+            self.enc4 = Model(input=inputs,output=conv4)
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
             pool4 = Dropout(0.2)(pool4)
 
@@ -128,7 +128,7 @@ class VariationalConvolutionalAutoencoder(object):
             inputs3 = Input(input3_size)(conv3)
             inputs4 = Input(input4_size)(conv4)
 
-            self.encoder = Model(inputs=inputs,outputs=[z_mean,z_logvar,conv1,conv2,conv3,conv4])
+            self.encoder = Model(input=inputs,output=[z_mean,z_logvar,conv1,conv2,conv3,conv4])
 
             f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
@@ -154,7 +154,7 @@ class VariationalConvolutionalAutoencoder(object):
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
-            self.decoder = Mode(inputs=[sample,inputs1,inputs2,inputs3,inputs4],outputs=ouputs)
+            self.decoder = Model(input=[sample,inputs1,inputs2,inputs3,inputs4],output=ouputs)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
