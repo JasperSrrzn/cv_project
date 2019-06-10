@@ -7,10 +7,10 @@ do_training = 1
 save_autoenco = 1
 
 #define parameters
-latent_dimension = 1000
+latent_dimension = 10
 num_epochs = 1000
 num_filters = 8
-loss = 'mse'
+loss = 'xent'
 
 #directory for stored data and stored model
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
@@ -40,9 +40,9 @@ best_autoencoder.load_weights(model_dir+name)
 
 
 #encode the training set and test set
-X_train_enc = best_autoencoder.encode(X_train)
-X_test_enc = best_autoencoder.encode(X_test)
-X_val_enc= best_autoencoder.encode(X_validation)
+X_train_mean_enc, X_train_logvar_enc = best_autoencoder.encode(X_train)
+X_test_mean_enc, X_test_logvar_enc = best_autoencoder.encode(X_test)
+X_val_mean_enc, X_val_logvar_enc = best_autoencoder.encode(X_validation)
 
 
 #reconstruct
@@ -54,6 +54,9 @@ np.save('/content/gdrive/My Drive/autoencoders/reconstructions/X_pred_rec_'+name
 # save encoded vars
 if save_autoenco == 1:
     print('saving encoded vars')
-    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_enc_'+name[:-3]+'.npy',X_train_enc)
-    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_enc_'+name[:-3]+'.npy',X_test_enc)
-    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_enc_'+name[:-3]+'.npy',X_val_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_mean_enc_'+name[:-3]+'.npy',X_train_mean_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_mean_enc_'+name[:-3]+'.npy',X_test_mean_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_mean_enc_'+name[:-3]+'.npy',X_val_mean_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_train_logvar_enc_'+name[:-3]+'.npy',X_train_logvar_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_test_logvar_enc_'+name[:-3]+'.npy',X_test_logvar_enc)
+    np.save('/content/gdrive/My Drive/autoencoders/encoded/X_val_logvar_enc_'+name[:-3]+'.npy',X_val_logvar_enc)

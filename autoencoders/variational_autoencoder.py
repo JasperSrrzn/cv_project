@@ -115,7 +115,7 @@ class VariationalConvolutionalAutoencoder(object):
             sample = Lambda(sampling)([z_mean, z_logvar])
             #sample = sample_layer
 
-            self.encoder = Model(input=inputs,output=z_mean)
+            self.encoder = Model(input=inputs,output=[z_mean,z_logvar])
 
             f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
@@ -143,7 +143,7 @@ class VariationalConvolutionalAutoencoder(object):
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
             #self.decoder = Model(input=sample,output=outputs)
             self.vae = Model(inputs,outputs)
-            reconstruction_loss =  mse(K.flatten(inputs), K.flatten(outputs))
+            reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
             kl_loss = K.sum(kl_loss, axis=-1)
             kl_loss *= -0.5
