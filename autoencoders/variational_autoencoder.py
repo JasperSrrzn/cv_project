@@ -97,7 +97,7 @@ class VariationalConvolutionalAutoencoder(object):
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
             pool4 = Dropout(0.2)(pool4)
 
-            conv5 = conv2d_block(pool4, n_filters*32, kernel_size=3, batchnorm=True)
+            conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
 
             shape = conv5.shape
             latent = Flatten()(conv5)
