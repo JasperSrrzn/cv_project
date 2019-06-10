@@ -143,7 +143,7 @@ class VariationalConvolutionalAutoencoder(object):
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
 
-            self.decoder=Model([sample,conv1,conv2,conv3,conv4],outputs)
+            self.decoder=Model(sample,outputs)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
