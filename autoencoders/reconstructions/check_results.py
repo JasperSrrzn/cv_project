@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 #define parameters
 latent_dimension = 10
-loss = 'xent'
+loss = 'mse'
 
 #name for storing best_autoencoder
 name = 'variational_autoencoder_'+loss+'_'+str(latent_dimension)
