@@ -115,7 +115,7 @@ class VariationalConvolutionalAutoencoder(object):
             sample = Lambda(sampling)([z_mean, z_logvar])
             #sample = sample_layer
 
-            self.encoder = Model(inputs,z_mean)
+            self.encoder = Model(inputs,[z_mean,conv1,conv2,conv3,conv4])
             self.logvar_encoder = Model(inputs,z_logvar)
 
             f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
@@ -143,7 +143,7 @@ class VariationalConvolutionalAutoencoder(object):
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
 
-            self.decoder=Model()
+            self.decoder=Model([sample,conv1,conv2,conv3,conv4],outputs)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
@@ -151,7 +151,7 @@ class VariationalConvolutionalAutoencoder(object):
             kl_loss *= -0.5
             vae_loss = K.mean(reconstruction_loss + kl_loss)
             self.vae.add_loss(vae_loss)
-            adam = Adam(lr=1e-3)
+            adam = Adam(lr=1e-4)
             self.vae.compile(optimizer=adam)
 
     def fit(self,X_train,X_validation,name,epochs=50):
@@ -167,8 +167,8 @@ class VariationalConvolutionalAutoencoder(object):
     def encode(self,X):
         return self.encoder.predict(X)
 
-    def decode(self,X):
-        return self.decoder.predict(X)
+    def decode(self,X,conv1,conv2,conv3,conv4):
+        return self.decoder.predict(X,conv1,conv2,conv3,conv4)
 
     def load_weights(self,path=None):
         self.vae.load_weights(path)
@@ -180,4 +180,6 @@ class VariationalConvolutionalAutoencoder(object):
         return self.vae.get_weights()
 
     def return_latent_parameters(self,X):
-        return self.encoder.predict(X), self.logvar_encoder.predict(X)
+        z_mean, conv1, conv2, conv3, conv4 = self.encoder.predict(X)
+        z_log_var = self.logvar_encoder.predict(X)
+        return z_mean, z_log_var, conv1, conv2, conv3, conv4
