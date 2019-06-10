@@ -149,8 +149,8 @@ class ConvolutionalAutoencoder(object):
                                 write_images=False, embeddings_freq=0, embeddings_layer_names=None,
                                 embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
                                 ]
-        self.autoencoder.fit(x=X_train,y=X_train,epochs=epochs,
-                            validation_data=[X_validation,X_validation],callbacks=callbacks)
+        self.autoencoder.fit(x=X_train,y=None,epochs=epochs,
+                            validation_data=[X_validation,None],callbacks=callbacks)
 
     def save_weights(self,path=None,prefix=""):
         """
