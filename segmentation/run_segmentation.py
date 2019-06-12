@@ -10,7 +10,7 @@ from keras.preprocessing.image import ImageDataGenerator
 n_classes = 2
 num_epochs = 1000
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
-model_dir = os.path.dirname(os.getcwd())+'/segmentation/saved_models/'
+model_dir = '/content/gdrive/My Drive/segmentation/saved_models/'
 
 #name
 name = 'unet.h5'
