@@ -128,7 +128,7 @@ class Unet(object):
 
             self.model = Model(input=inputs, output=outputs)
 
-            self.model.compile(optimizer=Adam(lr=1e-3), loss=lovasz_loss)
+            self.model.compile(optimizer=Adam(lr=1e-3), loss=dice_coef_loss)
 
             if (pretrained_weights):
                 self.model.load_weights(pretrained_weights)
