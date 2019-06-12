@@ -29,14 +29,6 @@ X_test = np.load(data_dir+'x_test_img.npy')
 Y_test = np.load(data_dir+'y_test_seg.npy')
 Y_test = np.reshape(Y_test,(Y_test.shape[0],Y_test.shape[1],Y_test.shape[2],1))
 
-datagen = ImageDataGenerator(
-    featurewise_center=True,
-    featurewise_std_normalization=True,
-    rotation_range=10,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    vertical_flip=True)
-
 model = Unet(n_filters=16)
 model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
 
@@ -46,7 +38,8 @@ best_model.load_weights(model_dir+name)
 predictions_test = best_model.predict(X_test)
 predictions_train = best_model.predict(X_train)
 
-np.save('/content/gdrive/My Drive/testpredictions.npy',predictions_test)
+np.save('/content/gdrive/My Drive/segmentation/test_segmentations_xent.npy',predictions_test)
+"""
 image1 = X_train[0]
 pred = predictions_train[0,:,:,0]
 pred = np.reshape(pred,(pred.shape[0],pred.shape[1],1))
@@ -65,3 +58,4 @@ plt.imshow(image1)
 plt.savefig('/content/gdrive/My Drive/first_test_image.png')
 plt.imshow(segm1)
 plt.savefig('/content/gdrive/My Drive/first_test_segm.png')
+"""

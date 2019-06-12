@@ -77,7 +77,7 @@ class Unet(object):
                 self.model.load_weights(pretrained_weights)
 
     def fit(self,X_train,y_train,X_validation,y_validation,name,epochs=50):
-        model_dir = os.path.dirname(os.getcwd()) + '/segmentation/saved_models/'
+        model_dir = '/content/gdrive/My Drive/segmentation/saved_models/'
         callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=20, verbose=1),
                      ReduceLROnPlateau(patience=10, verbose=1),
