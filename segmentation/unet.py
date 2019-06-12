@@ -14,16 +14,16 @@ def dice_coef_loss(y_true, y_pred):
     return 1-dice_coef(y_true, y_pred)
 
 def lovasz_grad(gt_sorted):
-"""
-Computes gradient of the Lovasz extension w.r.t sorted errors
-See Alg. 1 in paper
-"""
-gts = tf.reduce_sum(gt_sorted)
-intersection = gts - tf.cumsum(gt_sorted)
-union = gts + tf.cumsum(1. - gt_sorted)
-jaccard = 1. - intersection / union
-jaccard = tf.concat((jaccard[0:1], jaccard[1:] - jaccard[:-1]), 0)
-return jaccard
+    """
+    Computes gradient of the Lovasz extension w.r.t sorted errors
+    See Alg. 1 in paper
+    """
+    gts = tf.reduce_sum(gt_sorted)
+    intersection = gts - tf.cumsum(gt_sorted)
+    union = gts + tf.cumsum(1. - gt_sorted)
+    jaccard = 1. - intersection / union
+    jaccard = tf.concat((jaccard[0:1], jaccard[1:] - jaccard[:-1]), 0)
+    return jaccard
 
 
 # --------------------------- BINARY LOSSES ---------------------------
