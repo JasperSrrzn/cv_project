@@ -8,7 +8,7 @@ from unet import Unet
 from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 2
-num_epochs = 100
+num_epochs = 1000
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = os.path.dirname(os.getcwd())+'/segmentation/saved_models/'
 
