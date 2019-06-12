@@ -39,23 +39,3 @@ predictions_test = best_model.predict(X_test)
 predictions_train = best_model.predict(X_train)
 
 np.save('/content/gdrive/My Drive/segmentation/test_segmentations_dice.npy',predictions_test)
-"""
-image1 = X_train[0]
-pred = predictions_train[0,:,:,0]
-pred = np.reshape(pred,(pred.shape[0],pred.shape[1],1))
-segm1 = np.concatenate((pred,pred,pred),axis=-1)
-print(segm1.shape)
-plt.imshow(image1)
-plt.savefig('/content/gdrive/My Drive/first_train_image.png')
-plt.imshow(segm1)
-plt.savefig('/content/gdrive/My Drive/first_train_segm.png')
-
-image1 = X_test[0]
-pred = predictions_test[0,:,:,0]
-pred = np.reshape(pred,(pred.shape[0],pred.shape[1],1))
-segm1 = np.concatenate((pred,pred,pred),axis=-1)
-plt.imshow(image1)
-plt.savefig('/content/gdrive/My Drive/first_test_image.png')
-plt.imshow(segm1)
-plt.savefig('/content/gdrive/My Drive/first_test_segm.png')
-"""

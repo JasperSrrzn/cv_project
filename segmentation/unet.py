@@ -6,8 +6,8 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, Ear
 from keras import backend as K
 
 def dice_coef(y_true, y_pred, smooth=1):
-    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
-    return (2. * intersection + smooth) / (K.sum(K.square(y_true),-1) + K.sum(K.square(y_pred),-1) + smooth)
+    intersection = K.sum(K.abs(y_true * y_pred))
+    return (2. * intersection + smooth) / (K.sum(K.square(y_true),) + K.sum(K.square(y_pred)) + smooth)
 
 def dice_coef_loss(y_true, y_pred):
     return 1-dice_coef(y_true, y_pred)
