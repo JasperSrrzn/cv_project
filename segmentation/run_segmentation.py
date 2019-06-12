@@ -13,7 +13,7 @@ data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive/segmentation/saved_models/'
 
 #name
-name = 'unet_xent.h5'
+name = 'unet_dice.h5'
 # read train data
 X_train = np.load(data_dir+'x_train_img.npy')
 Y_train = np.load(data_dir+'y_train_seg.npy')
@@ -38,7 +38,7 @@ best_model.load_weights(model_dir+name)
 predictions_test = best_model.predict(X_test)
 predictions_train = best_model.predict(X_train)
 
-np.save('/content/gdrive/My Drive/segmentation/test_segmentations_xent.npy',predictions_test)
+np.save('/content/gdrive/My Drive/segmentation/test_segmentations_dice.npy',predictions_test)
 """
 image1 = X_train[0]
 pred = predictions_train[0,:,:,0]
