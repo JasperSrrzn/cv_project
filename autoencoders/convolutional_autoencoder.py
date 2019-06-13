@@ -103,23 +103,23 @@ class ConvolutionalAutoencoder(object):
 
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(latent)
 
-            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
+            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same',activation='relu')(f2)
             up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
 
-            up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
+            up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv6)
             up7 = Dropout(0.2)(up7)
             conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
 
-            up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
+            up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv7)
             up8 = Dropout(0.2)(up8)
             conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
+            up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv8)
             up9  = Dropout(0.2)(up9)
-            outputs = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
+            outputs = conv2d_block(up9, 3, kernel_size=3, batchnorm=True)
 
-            #outputs = Conv2D(3 , (3,3), activation='sigmoid')(conv9)
+            #outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
