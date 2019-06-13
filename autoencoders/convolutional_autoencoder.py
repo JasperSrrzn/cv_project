@@ -49,20 +49,20 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     """
     constructs a block of convolutional layers and batchnormalization layers
     """
-    x_shortcut_1 = input_tensor
+    x_shortcut = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same')(input_tensor)
     x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
               padding='same')(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
-    x = Add()([x,x_shortcut_1])
+
     x = Activation('relu')(x)
 
-    x_shortcut_2 = x
     x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
               padding='same')(x)
     if batchnorm:
         x = BatchNormalization()(x)
-    x = Add()([x,x_shortcut_2])
+    x = Add()([x,x_shortcut])
     x = Activation('relu')(x)
 
     return x
