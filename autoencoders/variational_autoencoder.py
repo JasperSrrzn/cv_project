@@ -8,6 +8,9 @@ from keras import regularizers
 from keras.optimizers import Adam
 
 def sampling(args):
+    """
+    function to draw samples in the latent space
+    """
     z_mean, z_log_var = args
     batch = K.shape(z_mean)[0]
     dim = K.int_shape(z_mean)[1]
@@ -73,7 +76,9 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     return x
 
 class VariationalConvolutionalAutoencoder(object):
-
+    """
+    function to create an object for the Variational Autoencoder
+    """
     def __init__(self,latent_dim,n_filters,pretrained_weights=None):
 
         self.latent_dim = latent_dim
@@ -141,7 +146,6 @@ class VariationalConvolutionalAutoencoder(object):
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
-            #self.decoder = Model(input=sample,output=outputs)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
@@ -153,6 +157,9 @@ class VariationalConvolutionalAutoencoder(object):
             self.vae.compile(optimizer=adam)
 
     def fit(self,X_train,X_validation,name,epochs=50):
+        """
+        function to fit the variational autoencoder
+        """
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
         callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=20, verbose=1),
@@ -163,16 +170,31 @@ class VariationalConvolutionalAutoencoder(object):
         self.vae.fit(x=X_train,y=None,epochs=epochs,validation_data=[X_validation,None],callbacks=callbacks)
 
     def encode(self,X):
+        """
+        function to encode the data
+        """
         return self.encoder.predict(X)
 
     def decode(self,Z):
+        """
+        function to decode the latent representation
+        """
         return self.decoder.predict(Z)
 
     def load_weights(self,path=None):
+        """
+        function to load the weight parameters in a model
+        """
         self.vae.load_weights(path)
 
     def predict(self,X):
+        """
+        make reconstruction
+        """
         return self.vae.predict(X)
 
     def get_weights(self):
+        """
+        get the weight parameters of the model
+        """
         return self.vae.get_weights()
