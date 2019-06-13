@@ -47,7 +47,7 @@ class TrainValTensorBoard(TensorBoard):
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     """
-    constructs a block of convolutional layers and batchnormalization layers
+    constructs a block of ResNet convolutional layers and batchnormalization layers
     """
     x_shortcut = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
               padding='same')(input_tensor)
@@ -119,7 +119,7 @@ class ConvolutionalAutoencoder(object):
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
-            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
+            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
 
             if (pretrained_weights):
                 self.autoencoder.load_weights(pretrained_weights)
