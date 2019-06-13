@@ -123,7 +123,7 @@ class ConvolutionalAutoencoder(object):
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
-            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='binary_crossentropy')
+            self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
 
             if (pretrained_weights):
                 self.autoencoder.load_weights(pretrained_weights)
