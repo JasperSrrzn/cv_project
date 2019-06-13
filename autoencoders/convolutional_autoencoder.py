@@ -54,7 +54,7 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
               padding='same')(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
-    x = Add()[x,x_shortcut_1]
+    x = Add()([x,x_shortcut_1])
     x = Activation('relu')(x)
 
     x_shortcut_2 = x
@@ -62,7 +62,7 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
               padding='same')(x)
     if batchnorm:
         x = BatchNormalization()(x)
-    x = Add()[x,x_shortcut_2]
+    x = Add()([x,x_shortcut_2])
     x = Activation('relu')(x)
 
     return x
