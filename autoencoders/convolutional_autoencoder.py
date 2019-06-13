@@ -121,7 +121,7 @@ class ConvolutionalAutoencoder(object):
 
             up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv8)
             #up9  = Dropout(0.2)(up9)
-            conv9 = conv2d_block(up9, filters * 1, kernel_size=3, batchnorm=True)
+            conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
 
