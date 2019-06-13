@@ -59,18 +59,22 @@ class TrainValTensorBoard(TensorBoard):
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     """
-    constructs a block of convolutional layers and batchnormalization layers
+    constructs a block of ResNet convolutional layers and batchnormalization layers
     """
+    x_shortcut = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same')(input_tensor)
     x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
-              padding='same',kernel_regularizer=regularizers.l2(0.01))(input_tensor)
+              padding='same')(input_tensor)
     if batchnorm:
         x = BatchNormalization()(x)
+
     x = Activation('relu')(x)
 
     x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
-              padding='same',kernel_regularizer=regularizers.l2(0.01))(x)
+              padding='same')(x)
     if batchnorm:
         x = BatchNormalization()(x)
+    x = Add()([x,x_shortcut])
     x = Activation('relu')(x)
 
     return x
