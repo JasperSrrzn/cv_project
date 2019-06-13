@@ -7,7 +7,7 @@ do_training = 1
 save_autoenco = 1
 
 #define parameters
-latent_dimension = 10
+latent_dimension = 100
 num_epochs = 1000
 num_filters = 16
 loss = 'mse'
