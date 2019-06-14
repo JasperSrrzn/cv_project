@@ -29,9 +29,9 @@ X_test = np.load(data_dir+'x_test_img.npy')
 
 datagen = ImageDataGenerator(
     horizontal_flip=True,
-    width_shift_range=0.1,
-    height_shift_range=0.1,
-    zoom_range=0.1)
+    width_shift_range=0.01,
+    height_shift_range=0.01,
+    zoom_range=0.01)
 
 if do_training == 1:
     print('starting training...')
