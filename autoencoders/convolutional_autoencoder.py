@@ -121,9 +121,12 @@ class ConvolutionalAutoencoder(object):
             conv11 = conv2d_block(up11, n_filters * 2, kernel_size=3, batchnorm=True)
 
             up12 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv11)
-            conv12 = conv2d_block(up12, n_filters * 1, kernel_size=3, batchnorm=True)
+            conv12 = conv2d_block(up12, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv12)
+            up13 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv12)
+            conv13 = conv2d_block(up13, n_filters * 1, kernel_size=3, batchnorm=True)
+
+            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv13)
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
