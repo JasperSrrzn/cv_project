@@ -28,10 +28,7 @@ X_validation = np.load(data_dir+'x_val_img.npy')
 X_test = np.load(data_dir+'x_test_img.npy')
 
 datagen = ImageDataGenerator(
-    vertical_flip=True,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    zoom_range=0.1)
+    vertical_flip=True)
 
 if do_training == 1:
     print('starting training...')
