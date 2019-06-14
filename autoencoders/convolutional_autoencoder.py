@@ -163,7 +163,7 @@ class ConvolutionalAutoencoder(object):
                                 embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
                                 ]
         datagen.fit(X_train)
-        self.autoencoder.fit_generator(datagen.flow(x=X_train,y=X_train,batch_size=len(X_train)/9), steps_per_epoch = 18, epochs=epochs,
+        self.autoencoder.fit_generator(datagen.flow(x=X_train,y=X_train,batch_size=int(len(X_train)/9)), steps_per_epoch = 9*4, epochs=epochs,
                             validation_data=[X_validation,X_validation],callbacks=callbacks)
 
 
