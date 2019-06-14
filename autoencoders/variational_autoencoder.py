@@ -164,8 +164,7 @@ class VariationalConvolutionalAutoencoder(object):
                      TrainValTensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3],
                                  histogram_freq=0, batch_size=32, write_graph=True, write_grads=False,
                                  write_images=False, embeddings_freq=0, embeddings_layer_names=None,
-                                 embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
-                                 ]]
+                                 embeddings_metadata=None, embeddings_data=None, update_freq='epoch')]
         self.vae.fit(x=X_train,y=None,epochs=epochs,validation_data=[X_validation,None],callbacks=callbacks)
 
     def encode(self,X):
