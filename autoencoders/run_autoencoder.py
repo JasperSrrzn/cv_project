@@ -11,7 +11,7 @@ save_autoenco = 1
 
 num_epochs = 1000
 num_filters = 4
-latent_dimension = 448
+latent_dimension = 6300
 loss = 'mse'
 print(latent_dimension)
 #directory for stored data and stored model
