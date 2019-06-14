@@ -27,18 +27,13 @@ X_train = np.load(data_dir+'x_train_img.npy')
 X_validation = np.load(data_dir+'x_val_img.npy')
 X_test = np.load(data_dir+'x_test_img.npy')
 
-datagen = ImageDataGenerator(
-    horizontal_flip=True,
-    width_shift_range=0.01,
-    height_shift_range=0.01,
-    zoom_range=0.01)
 
 if do_training == 1:
     print('starting training...')
     #initialize model
     autoencoder = ConvolutionalAutoencoder(latent_dimension,num_filters)
     #train model
-    autoencoder.fit_generator(X_train=X_train,X_validation=X_validation,datagen=datagen,name=name,epochs=num_epochs)
+    autoencoder.fit(X_train=X_train,X_validation=X_validation,datagen,name=name,epochs=num_epochs)
 
 #select the best model (stored)
 best_autoencoder = ConvolutionalAutoencoder(latent_dimension,num_filters)

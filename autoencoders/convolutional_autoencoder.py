@@ -65,6 +65,23 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3, batchnorm=True):
     x = Add()([x,x_shortcut])
     x = Activation('relu')(x)
 
+    x_shortcut_1 = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same')(x)
+
+    x =Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same')(x)
+    if batchnorm:
+        x = BatchNormalization()(x)
+
+    x = Activation('relu')(x)
+
+    x = Conv2D(filters=n_filters, kernel_size=(kernel_size,kernel_size),kernel_initializer='he_normal',
+              padding='same')(x)
+    if batchnorm:
+        x = BatchNormalization()(x)
+    x = Add()([x,x_shortcut_1])
+    x = Activation('relu')(x)
+
     return x
 
 class ConvolutionalAutoencoder(object):
@@ -147,25 +164,6 @@ class ConvolutionalAutoencoder(object):
                                 ]
         self.autoencoder.fit(x=X_train,y=X_train,epochs=epochs,
                             validation_data=[X_validation,X_validation],callbacks=callbacks)
-
-    def fit_generator(self,X_train,X_validation,datagen,name,epochs=50):
-        """
-        function to fit the model constructed in the def __init__ function.
-        """
-        model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
-        callbacks = [ModelCheckpoint(model_dir+name,monitor='val_loss', verbose=1, save_best_only=True,
-                                    save_weights_only=False),
-                    EarlyStopping(patience=20, verbose=1),
-                    ReduceLROnPlateau(patience=10, verbose=1),
-                    TrainValTensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3],
-                                histogram_freq=0, batch_size=32, write_graph=True, write_grads=False,
-                                write_images=False, embeddings_freq=0, embeddings_layer_names=None,
-                                embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
-                                ]
-        datagen.fit(X_train)
-        self.autoencoder.fit_generator(datagen.flow(x=X_train,y=X_train,batch_size=int(len(X_train)/9)), steps_per_epoch = 9*2, epochs=epochs,
-                            validation_data=[X_validation,X_validation],callbacks=callbacks)
-
 
     def save_weights(self,path=None,prefix=""):
         """
