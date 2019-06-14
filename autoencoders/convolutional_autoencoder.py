@@ -98,7 +98,7 @@ class ConvolutionalAutoencoder(object):
         if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
-            x = Conv2D(64, (3, 3), padding='same')(input_img)
+            x = Conv2D(64, (3, 3), padding='same')(inputs)
             x = BatchNormalization()(x)
             x = Activation('relu')(x)
             x = MaxPooling2D((2, 2), padding='same')(x)
