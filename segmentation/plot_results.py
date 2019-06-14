@@ -21,7 +21,7 @@ X_test = np.load(data_dir+'x_test_img.npy')
 Y_test = np.load(data_dir+'y_test_seg.npy')
 Y_test = np.reshape(Y_test,(Y_test.shape[0],Y_test.shape[1],Y_test.shape[2],1))
 
-predictions_test_dice = np.load('test_segmentations_dice.npy')
+predictions_test_dice = np.load('test_segmentations_dice_old.npy')
 predictions_test_dice_new = np.load('test_segmentations_dice_new.npy')
 
 id = 7
