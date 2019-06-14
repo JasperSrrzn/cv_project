@@ -145,7 +145,8 @@ class Unet(object):
             conv9 = BatchNormalization()(conv9)
             conv9 = Activation('relu')(conv9)
 
-            outputs = Conv2D(1,(1,1),padding='same',activation='sigmoid')(conv9)
+            up10 = UpSampling2D((2,2))(conv9)
+            outputs = Conv2D(1,(1,1),padding='same',activation='sigmoid')(up10)
 
             self.model = Model(input=inputs, output=outputs)
 
