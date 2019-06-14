@@ -131,7 +131,7 @@ class ConvolutionalAutoencoder(object):
             x = BatchNormalization()(x)
             x = Activation('relu')(x)
             x = UpSampling2D((2, 2))(x)
-            x = Conv2D(, (3, 3), padding='same')(x)
+            x = Conv2D(3, (3, 3), padding='same')(x)
             x = BatchNormalization()(x)
             decoded = Activation('sigmoid')(x)
 
