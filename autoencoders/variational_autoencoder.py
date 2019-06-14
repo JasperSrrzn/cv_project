@@ -6,6 +6,7 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, Ear
 import os
 from keras import regularizers
 from keras.optimizers import Adam
+import tensorflow as tf
 
 def sampling(args):
     """
