@@ -7,9 +7,9 @@ do_training = 1
 save_autoenco = 1
 
 #define parameters
-latent_dimension = 10
 num_epochs = 1000
-num_filters = 8
+num_filters = 4
+latent_dimension = 7*7*32*num_filters
 loss = 'xent'
 
 #directory for stored data and stored model

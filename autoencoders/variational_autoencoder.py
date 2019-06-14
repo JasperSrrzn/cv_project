@@ -104,40 +104,45 @@ class VariationalConvolutionalAutoencoder(object):
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
             conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
+            pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
 
-            shape = conv5.shape
-            latent = Flatten()(conv5)
+            conv6 = conv2d_block(pool5, n_filters*32, kernel_size=3, batchnorm=True)
+
+            shape = conv6.shape
+            latent = Flatten()(conv6)
 
             #generate latent representation
 
             m = BatchNormalization()(latent)
-            z_mean = Dense(self.latent_dim)(m)
+            z_mean = Dense(int(shape[1])*int(shape[2])*int(shape[3]),kernel_initializer='he_normal')(m)
 
 
             l = BatchNormalization()(latent)
-            z_logvar = Dense(self.latent_dim)(l)
+            z_logvar = Dense(int(shape[1])*int(shape[2])*int(shape[3]),kernel_initializer='he_normal')(l)
 
             sample = Lambda(sampling)([z_mean, z_logvar])
             #sample = sample_layer
 
             self.encoder = Model(input=inputs,output=[z_mean,z_logvar])
 
-            f2 = Dense((int(shape[1])*int(shape[2])*int(shape[3])))(sample)
-            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
+            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(sample)
 
-            up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
-            conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
+            up7 = Conv2DTranspose(n_filters*16, (3,3),strides=(2,2), padding='same',activation='relu')(f2)
+            conv7 = conv2d_block(up7, n_filters*16, kernel_size=3, batchnorm=True)
 
-            up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
-            conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
+            up8 = Conv2DTranspose(n_filters*8, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv7)
+            conv8 = conv2d_block(up8, n_filters * 4, kernel_size=3, batchnorm=True)
 
-            up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
-            conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
+            up9 = Conv2DTranspose(n_filters * 4, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv8)
+            conv9 = conv2d_block(up9, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
-            conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
+            up10 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv9)
+            conv10 = conv2d_block(up10, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
+            up11 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv10)
+            conv11 = conv2d_block(up11, n_filters * 1, kernel_size=3, batchnorm=True)
+
+            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv11)
             self.vae = Model(inputs,outputs)
             reconstruction_loss =  binary_crossentropy(K.flatten(inputs), K.flatten(outputs))
             kl_loss = 1 + z_logvar - K.square(z_mean) - K.exp(z_logvar)
