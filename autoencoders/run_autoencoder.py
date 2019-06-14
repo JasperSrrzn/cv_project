@@ -13,7 +13,7 @@ num_epochs = 1000
 num_filters = 4
 latent_dimension = 448
 loss = 'mse'
-
+print(latent_dimension)
 #directory for stored data and stored model
 data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive//autoencoders/saved_models/'
