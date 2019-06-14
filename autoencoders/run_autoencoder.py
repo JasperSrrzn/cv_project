@@ -9,7 +9,7 @@ save_autoenco = 1
 #define parameters
 
 num_epochs = 1000
-num_filters = 8
+num_filters = 16
 latent_dimension = 7*7*num_filters*32
 loss = 'xent'
 
