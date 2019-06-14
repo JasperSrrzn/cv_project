@@ -92,7 +92,7 @@ class VariationalConvolutionalAutoencoder(object):
             input_size = (224, 224, 3)
             inputs = Input(input_size)
             conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
-            conv1 = conv2dblock(conv1, n_filters*1, kernel_size=3, batchnorm=True)
+            conv1 = conv2d_block(conv1, n_filters*1, kernel_size=3, batchnorm=True)
             pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
             pool1 = Dropout(0.2)(pool1)
 
