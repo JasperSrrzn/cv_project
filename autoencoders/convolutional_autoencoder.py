@@ -127,10 +127,9 @@ class ConvolutionalAutoencoder(object):
             x = BatchNormalization()(x)
             decoded = Activation('sigmoid')(x)
 
-            model = Model(inputs, decoded)
-            model.compile(optimizer='adam', loss='binary_crossentropy')
 
-            self.autoencoder = Model(input=inputs, output=outputs)
+
+            self.autoencoder = Model(input=inputs, output=decoded)
 
             self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
             if (pretrained_weights):
