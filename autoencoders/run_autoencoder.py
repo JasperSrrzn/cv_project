@@ -33,7 +33,7 @@ if do_training == 1:
     #initialize model
     autoencoder = ConvolutionalAutoencoder(latent_dimension,num_filters)
     #train model
-    autoencoder.fit(X_train=X_train,X_validation=X_validation,datagen,name=name,epochs=num_epochs)
+    autoencoder.fit(X_train=X_train,X_validation=X_validation,name=name,epochs=num_epochs)
 
 #select the best model (stored)
 best_autoencoder = ConvolutionalAutoencoder(latent_dimension,num_filters)
