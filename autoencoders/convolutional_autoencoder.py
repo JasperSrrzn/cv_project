@@ -98,7 +98,6 @@ class ConvolutionalAutoencoder(object):
             shape = conv5.shape
             latent = Flatten()(conv5)
 
-
             self.encoder = Model(input=inputs,output=latent)
 
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(latent)
@@ -120,7 +119,7 @@ class ConvolutionalAutoencoder(object):
             self.autoencoder = Model(input=inputs, output=outputs)
 
             self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
-
+            print(self.autoencoder.summary())
             if (pretrained_weights):
                 self.autoencoder.load_weights(pretrained_weights)
 
