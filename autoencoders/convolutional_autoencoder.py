@@ -148,7 +148,7 @@ class ConvolutionalAutoencoder(object):
         self.autoencoder.fit(x=X_train,y=X_train,epochs=epochs,
                             validation_data=[X_validation,X_validation],callbacks=callbacks)
 
-    def fit(self,X_train,X_validation,datagen,name,epochs=50):
+    def fit_generator(self,X_train,X_validation,datagen,name,epochs=50):
         """
         function to fit the model constructed in the def __init__ function.
         """
