@@ -13,7 +13,7 @@ data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive/segmentation/saved_models/'
 
 #name
-name = 'unet_dice.h5'
+name = 'unet_dice_simple.h5'
 
 # read train data
 X_train = np.load(data_dir+'x_train_img.npy')
