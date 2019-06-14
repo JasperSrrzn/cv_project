@@ -23,7 +23,7 @@ Y_test = np.reshape(Y_test,(Y_test.shape[0],Y_test.shape[1],Y_test.shape[2],1))
 
 predictions_test_dice = np.load('test_segmentations_dice.npy')
 predictions_test_xent = np.load('test_segmentations_xent.npy')
-"""
+
 id = 7
 image1 = X_test[id]
 pred_xent = predictions_test_xent[id,:,:,0]
@@ -39,7 +39,7 @@ plt.imshow(segm_xent)
 plt.savefig('xent.eps')
 plt.imshow(segm_dice)
 plt.savefig('dice.jpg')
-"""
+
 test_set_scores = []
 for i in range(len(Y_test)):
     test_set_scores.append(performance_score(Y_test[i,:,:,0],predictions_test_xent[i,:,:,0],0))
