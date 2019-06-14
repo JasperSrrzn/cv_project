@@ -4,7 +4,7 @@ from unet import Unet
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from unet import Unet
+from unet_old import Unet
 from keras.preprocessing.image import ImageDataGenerator
 
 n_classes = 2
@@ -13,7 +13,7 @@ data_dir = os.path.dirname(os.getcwd())+'/output_data/'
 model_dir = '/content/gdrive/My Drive/segmentation/saved_models/'
 
 #name
-name = 'unet_dice_simple.h5'
+name = 'unet_dice_old.h5'
 
 # read train data
 X_train = np.load(data_dir+'x_train_img.npy')
@@ -39,4 +39,4 @@ best_model.load_weights(model_dir+name)
 predictions_test = best_model.predict(X_test)
 predictions_train = best_model.predict(X_train)
 
-np.save('/content/gdrive/My Drive/segmentation/test_segmentations_dice.npy',predictions_test)
+np.save('/content/gdrive/My Drive/segmentation/test_segmentations_dice_old.npy',predictions_test)
