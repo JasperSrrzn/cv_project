@@ -11,7 +11,7 @@ save_autoenco = 1
 
 num_epochs = 1000
 num_filters = 4
-latent_dimension = 7*7*num_filters*32
+latent_dimension = 448
 loss = 'mse'
 
 #directory for stored data and stored model
