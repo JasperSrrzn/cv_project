@@ -92,24 +92,20 @@ class VariationalConvolutionalAutoencoder(object):
             input_size = (224, 224, 3)
             inputs = Input(input_size)
             conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
-            conv1 = conv2d_block(conv1, n_filters*1, kernel_size=3, batchnorm=True)
             pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
-            pool1 = Dropout(0.2)(pool1)
+            #pool1 = Dropout(0.2)(pool1)
 
             conv2 = conv2d_block(pool1, n_filters*2, kernel_size=3, batchnorm=True)
-            conv2 = conv2d_block(conv2, n_filters*2, kernel_size=3, batchnorm=True)
             pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
-            pool2 = Dropout(0.2)(pool2)
+            #pool2 = Dropout(0.2)(pool2)
 
             conv3 = conv2d_block(pool2, n_filters*4, kernel_size=3, batchnorm=True)
-            conv3 = conv2d_block(conv3,n_filters *4, kernel_size=3, batchnorm=True)
             pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
-            pool3 = Dropout(0.2)(pool3)
+            #pool3 = Dropout(0.2)(pool3)
 
             conv4 = conv2d_block(pool3, n_filters*8, kernel_size=3, batchnorm=True)
-            conv4 = conv2d_block(conv4, n_filters*8, kernel_size=3, batchnorm=True)
             pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
-            pool4 = Dropout(0.2)(pool4)
+            #pool4 = Dropout(0.2)(pool4)
 
             conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
 
@@ -134,24 +130,20 @@ class VariationalConvolutionalAutoencoder(object):
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(f2)
 
             up6 = Conv2DTranspose(n_filters*8, (3,3),strides=(2,2), padding='same')(f2)
-            up6 = Dropout(0.2)(up6)
+            #up6 = Dropout(0.2)(up6)
             conv6 = conv2d_block(up6, n_filters*8, kernel_size=3, batchnorm=True)
-            conv6 = conv2d_block(conv6,n_filters*8, kernel_size=3, batchnorm=True)
 
             up7 = Conv2DTranspose(n_filters*4, (3, 3), strides=(2, 2), padding='same')(conv6)
-            up7 = Dropout(0.2)(up7)
+            #up7 = Dropout(0.2)(up7)
             conv7 = conv2d_block(up7, n_filters * 4, kernel_size=3, batchnorm=True)
-            conv7 = conv2d_block(conv7, n_filters *4, kernel_size=3, batchnorm=True)
 
             up8 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same')(conv7)
-            up8 = Dropout(0.2)(up8)
+            #up8 = Dropout(0.2)(up8)
             conv8 = conv2d_block(up8, n_filters * 2, kernel_size=3, batchnorm=True)
-            conv8 = conv2d_block(conv8, n_filters * 2, kernel_size=3, batchnorm=True)
 
             up9 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same')(conv8)
-            up9  = Dropout(0.2)(up9)
+            #up9  = Dropout(0.2)(up9)
             conv9 = conv2d_block(up9, n_filters * 1, kernel_size=3, batchnorm=True)
-            conv9 = conv2d_block(conv9, n_filters * 1, kernel_size=3, batchnorm=True)
 
             outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv9)
             self.vae = Model(inputs,outputs)
