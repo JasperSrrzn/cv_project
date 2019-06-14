@@ -128,7 +128,7 @@ class ConvolutionalAutoencoder(object):
             decoded = Activation('sigmoid')(x)
 
 
-
+            self.encoder = Model(inputs, encoded)
             self.autoencoder = Model(input=inputs, output=decoded)
 
             self.autoencoder.compile(optimizer=Adam(lr=1e-3), loss='mean_squared_error')
