@@ -98,46 +98,37 @@ class ConvolutionalAutoencoder(object):
         if pretrained_weights==None:
             input_size = (224, 224, 3)
             inputs = Input(input_size)
-            conv1 = conv2d_block(inputs, n_filters*1, kernel_size=3, batchnorm=True)
-            pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
+            x = Conv2D(64, (3, 3), padding='same')(input_img)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            x = MaxPooling2D((2, 2), padding='same')(x)
+            x = Conv2D(32, (3, 3), padding='same')(x)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            x = MaxPooling2D((2, 2), padding='same')(x)
+            x = Conv2D(16, (3, 3), padding='same')(x)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            encoded = MaxPooling2D((2, 2), padding='same')(x)
 
-            conv2 = conv2d_block(pool1, n_filters*2, kernel_size=3, batchnorm=True)
-            pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
+            x = Conv2D(16, (3, 3), padding='same')(encoded)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            x = UpSampling2D((2, 2))(x)
+            x = Conv2D(32, (3, 3), padding='same')(x)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            x = UpSampling2D((2, 2))(x)
+            x = Conv2D(64, (3, 3), padding='same')(x)
+            x = BatchNormalization()(x)
+            x = Activation('relu')(x)
+            x = UpSampling2D((2, 2))(x)
+            x = Conv2D(3, (3, 3), padding='same')(x)
+            x = BatchNormalization()(x)
+            decoded = Activation('sigmoid')(x)
 
-            conv3 = conv2d_block(pool2, n_filters*4, kernel_size=3, batchnorm=True)
-            pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
-
-            conv4 = conv2d_block(pool3, n_filters*8, kernel_size=3, batchnorm=True)
-            pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
-
-            conv5 = conv2d_block(pool4, n_filters*16, kernel_size=3, batchnorm=True)
-            pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
-
-            conv6 = conv2d_block(pool5, n_filters*32, kernel_size=3, batchnorm=True)
-
-            shape = conv6.shape
-            latent = Flatten()(conv6)
-
-            self.encoder = Model(input=inputs,output=latent)
-
-            f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(latent)
-
-            up7 = Conv2DTranspose(n_filters*16, (3,3),strides=(2,2), padding='same',activation='relu')(f2)
-            conv7 = conv2d_block(up7, n_filters*16, kernel_size=3, batchnorm=True)
-
-            up8 = Conv2DTranspose(n_filters*8, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv7)
-            conv8 = conv2d_block(up8, n_filters * 4, kernel_size=3, batchnorm=True)
-
-            up9 = Conv2DTranspose(n_filters * 4, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv8)
-            conv9 = conv2d_block(up9, n_filters * 2, kernel_size=3, batchnorm=True)
-
-            up10 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv9)
-            conv10 = conv2d_block(up10, n_filters * 2, kernel_size=3, batchnorm=True)
-
-            up11 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv10)
-            conv11 = conv2d_block(up11, n_filters * 1, kernel_size=3, batchnorm=True)
-
-            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv11)
+            model = Model(inputs, decoded)
+            model.compile(optimizer='adam', loss='binary_crossentropy')
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
