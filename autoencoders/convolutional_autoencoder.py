@@ -97,36 +97,30 @@ class ConvolutionalAutoencoder(object):
             pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
 
             conv6 = conv2d_block(pool5, n_filters*32, kernel_size=3, batchnorm=True)
-            pool6 = MaxPooling2D(pool_size=(2, 2))(conv6)
 
-            conv7 = conv2d_block(pool6, n_filters*64, kernel_size=3, batchnorm=True)
-
-            shape = conv7.shape
-            latent = Flatten()(conv7)
+            shape = conv6.shape
+            latent = Flatten()(conv6)
 
             self.encoder = Model(input=inputs,output=latent)
 
             f2 = Reshape((int(shape[1]),int(shape[2]),int(shape[3])))(latent)
 
-            up8 = Conv2DTranspose(n_filters*32, (3,3),strides=(2,2), padding='same',activation='relu')(f2)
-            conv8 = conv2d_block(up8, n_filters*32, kernel_size=3, batchnorm=True)
+            up7 = Conv2DTranspose(n_filters*16, (3,3),strides=(2,2), padding='same',activation='relu')(f2)
+            conv7 = conv2d_block(up7, n_filters*16, kernel_size=3, batchnorm=True)
 
-            up9 = Conv2DTranspose(n_filters*16, (3,3),strides=(2,2), padding='same',activation='relu')(conv8)
-            conv9 = conv2d_block(up9, n_filters*16, kernel_size=3, batchnorm=True)
+            up8 = Conv2DTranspose(n_filters*8, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv7)
+            conv8 = conv2d_block(up8, n_filters * 4, kernel_size=3, batchnorm=True)
 
-            up10 = Conv2DTranspose(n_filters*8, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv9)
-            conv10 = conv2d_block(up10, n_filters * 4, kernel_size=3, batchnorm=True)
+            up9 = Conv2DTranspose(n_filters * 4, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv8)
+            conv9 = conv2d_block(up9, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            up11 = Conv2DTranspose(n_filters * 4, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv10)
-            conv11 = conv2d_block(up11, n_filters * 2, kernel_size=3, batchnorm=True)
+            up10 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv9)
+            conv10 = conv2d_block(up10, n_filters * 2, kernel_size=3, batchnorm=True)
 
-            up12 = Conv2DTranspose(n_filters * 2, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv11)
-            conv12 = conv2d_block(up12, n_filters * 2, kernel_size=3, batchnorm=True)
+            up11 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv10)
+            conv11 = conv2d_block(up11, n_filters * 1, kernel_size=3, batchnorm=True)
 
-            up13 = Conv2DTranspose(n_filters * 1, (3, 3), strides=(2, 2), padding='same',activation='relu')(conv12)
-            conv13 = conv2d_block(up13, n_filters * 1, kernel_size=3, batchnorm=True)
-
-            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv13)
+            outputs = Conv2D(3 , (1,1), activation='sigmoid')(conv11)
 
             self.autoencoder = Model(input=inputs, output=outputs)
 
