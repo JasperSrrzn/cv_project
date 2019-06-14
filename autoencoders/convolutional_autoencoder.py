@@ -101,7 +101,7 @@ class ConvolutionalAutoencoder(object):
 
             conv7 = conv2d_block(pool6, n_filters*64, kernel_size=3, batchnorm=True)
 
-            shape = conv6.shape
+            shape = conv7.shape
             latent = Flatten()(conv7)
 
             self.encoder = Model(input=inputs,output=latent)
