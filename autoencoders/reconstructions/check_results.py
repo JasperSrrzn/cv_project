@@ -5,7 +5,7 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
 #define parameters
-latent_dimension = 100
+latent_dimension = 1000
 loss = 'xent'
 
 #name for storing best_autoencoder
@@ -66,15 +66,14 @@ plt.savefig(fig_dir+name1+'/tsne_train.eps')
 #############plot example reconstruction ########################"
 """
 test_id = 6
-plt.subplot(1,2,1)
 plt.imshow(X_test[test_id])
+plt.savefig('original.eps')
 
 
 
 test1 = X_pred[test_id]
-plt.subplot(1,2,2)
 plt.imshow(test1)
-plt.savefig('example_reconstruction_'+name+'.eps')
+plt.savefig('xent_reconstruction_1000.eps')
 
 
 ############ calculate MSE on test ######################"
