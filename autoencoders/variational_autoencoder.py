@@ -159,7 +159,8 @@ class VariationalConvolutionalAutoencoder(object):
         function to fit the variational autoencoder
         """
         model_dir = '/content/gdrive/My Drive/autoencoders/saved_models/'
-        callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1, save_best_only=True,save_weights_only=False),
+        callbacks = [ModelCheckpoint(model_dir + name, monitor='val_loss', verbose=1,
+                                save_best_only=True,save_weights_only=False),
                      EarlyStopping(patience=20, verbose=1),
                      ReduceLROnPlateau(patience=10, verbose=1),
                      TrainValTensorBoard(log_dir='/content/gdrive/My Drive/autoencoders/logs/'+name[:-3],
