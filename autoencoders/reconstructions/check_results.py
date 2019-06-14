@@ -5,11 +5,11 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 
 #define parameters
-latent_dimension = 6272*1
+latent_dimension = 448
 loss = 'mse'
 
 #name for storing best_autoencoder
-name = 'variational_autoencoder_'+loss+'_'+str(latent_dimension)
+name = 'autoencoder_'+loss+'_'+str(latent_dimension)
 
 data_dir = os.path.dirname(os.path.dirname(os.getcwd()))+'/output_data/'
 fig_dir = os.path.dirname(os.getcwd())+'/figures/'
