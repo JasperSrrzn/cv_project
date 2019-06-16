@@ -36,9 +36,9 @@ segm_dice = np.concatenate((pred_dice,pred_dice,pred_dice),axis=-1)
 plt.imshow(image1)
 plt.savefig('original.eps')
 plt.imshow(segm_dice_new)
-plt.savefig('dice.eps')
-plt.imshow(segm_dice)
 plt.savefig('dice_new.eps')
+plt.imshow(segm_dice)
+plt.savefig('dice_old.eps')
 
 test_set_scores = []
 for i in range(len(Y_test)):

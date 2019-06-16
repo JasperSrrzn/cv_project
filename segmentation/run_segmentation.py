@@ -30,8 +30,14 @@ X_test = np.load(data_dir+'x_test_img.npy')
 Y_test = np.load(data_dir+'y_test_seg.npy')
 Y_test = np.reshape(Y_test,(Y_test.shape[0],Y_test.shape[1],Y_test.shape[2],1))
 
+datagen = ImageDataGenerator(
+    rotation_range=10,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True)
+
 model = Unet(n_filters=16)
-model.fit(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,name=name,epochs=num_epochs)
+model.fit_generator(X_train=X_train,y_train=Y_train,X_validation=X_val,y_validation=Y_val,datagen=datagen,name=name,epochs=num_epochs)
 
 best_model = Unet(n_filters=16)
 best_model.load_weights(model_dir+name)
